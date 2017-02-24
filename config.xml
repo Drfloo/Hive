@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>Hive</name>
+    <displayName><![CDATA[Hive]]></displayName>
+    <version><![CDATA[0.1.0]]></version>
+    <description><![CDATA[Description of my module.]]></description>
+    <author><![CDATA[Damien Barber, Bruziaux Florent, Hardy Maxime]]></author>
+    <tab><![CDATA[front_office_features]]></tab>
+    <confirmUninstall>Êtes-vous sûr de vouloir désinstaller le module?</confirmUninstall>
+    <is_configurable>0</is_configurable>
+    <need_instance>0</need_instance>
+    <limited_countries>fr</limited_countries>
+</module>
