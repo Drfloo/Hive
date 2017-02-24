@@ -1,8 +1,12 @@
 <?php
+<<<<<<< HEAD
 
 if (!defined('_PS_VERSION_'))
     exit;
 
+=======
+// test git
+>>>>>>> master
 class Hive extends Module
 {
     public function __construct()
