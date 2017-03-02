@@ -3,7 +3,7 @@
 if (!defined('_PS_VERSION_'))
     exit;
 
-var_dump(__DIR__.'/classes/Hive.php');
+require_once __DIR__.'/classes/HiveClasses.php';
 
 class Hive extends Module
 {
@@ -47,11 +47,12 @@ class Hive extends Module
     }
 
     public function hookDisplayAdminProductsExtra($params) {
-       // $id_product = Tools::getValue($id_product);
-       // $product_name = Hive::getProductName();
+       $id_product = Tools::getAllValues();
+
+        $product_name = HiveClasses::getProductName();
 
             $this->smarty->assign(array(
-                'productname' => "bite"
+                'productname' => $id_product,
             ));
 
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');

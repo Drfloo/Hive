@@ -1,5 +1,5 @@
 <div class="container">
-    <h3>{var_dump($productname)}</h3>
+    <h3>{var_dump($productname)}{$smarty.get.id_product}</h3>
 
     <p>Choississez le meillleur fournissseur pour ce produit</p>
     <table class="table table-striped">

@@ -1,6 +1,6 @@
 <?php
 
-class Hive extends ObjectModel{
+class HiveClasses extends ObjectModel{
 
     public static function getProductName()
     {
