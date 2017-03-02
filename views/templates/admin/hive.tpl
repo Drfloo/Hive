@@ -1,5 +1,5 @@
 <div class="container">
-    <h3>{var_dump($productname)}{$smarty.get.id_product}</h3>
+    <h3>{$productname}{var_dump($supplier)}</h3>
 
     <p>Choississez le meillleur fournissseur pour ce produit</p>
     <table class="table table-striped">
@@ -12,36 +12,18 @@
         </tr>
         </thead>
         <tbody>
+        {foreach from=$supplier item=supp}
         <tr>
-            <td>Fournisseur#1</td>
-            <td>15.00€</td>
+            <td>{$supp['name_supplier']}</td>
+            <td>{$supp['frais_supplier']}</td>
             <td>
                 <form action="#">
-                    <input type="checkbox">
-                </form>
-            </td>
-            <td>#1</td>
-        </tr>
-        <tr>
-            <td>Fournisseur#2</td>
-            <td>17.00€</td>
-            <td>
-                <form action="#">
-                    <input type="checkbox">
-                </form>
-            </td>
-            <td>#2</td>
-        </tr>
-        <tr>
-            <td>Fournisseur#3</td>
-            <td>18.50€</td>
-            <td>
-                <form action="#">
-                    <input type="checkbox">
+                    <input type="checkbox"{if $supp['status_supplier']} checked{/if}>
                 </form>
             </td>
             <td>#3</td>
         </tr>
+        {/foreach}
         </tbody>
     </table>
 </div>

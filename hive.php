@@ -47,12 +47,13 @@ class Hive extends Module
     }
 
     public function hookDisplayAdminProductsExtra($params) {
-       $id_product = Tools::getValue('id_product');
+       $id_product = $params['id_product'];
 
-        $product_name = HiveClasses::getProductName();
+        $product = HiveClasses::getProductName($id_product,$this->context->language->id);
 
             $this->smarty->assign(array(
-                'productname' => $id_product,
+                'productname' => $product['nomproduit'],
+                'supplier' => $product['supplie'],
             ));
 
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
