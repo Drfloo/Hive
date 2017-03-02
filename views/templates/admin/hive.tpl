@@ -1,5 +1,6 @@
 <div class="container">
-    <h3>[Nom du produit]</h3>
+    <h3>{var_dump($productname)}</h3>
+
     <p>Choississez le meillleur fournissseur pour ce produit</p>
     <table class="table table-striped">
         <thead>

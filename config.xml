@@ -2,7 +2,7 @@
 <module>
     <name>Hive</name>
     <displayName><![CDATA[Hive]]></displayName>
-    <version><![CDATA[0.1.0]]></version>
+    <version><![CDATA[0.1.1]]></version>
     <description><![CDATA[Description of my module.]]></description>
     <author><![CDATA[Damien Barber, Bruziaux Florent, Hardy Maxime]]></author>
     <tab><![CDATA[front_office_features]]></tab>

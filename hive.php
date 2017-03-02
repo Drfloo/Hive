@@ -1,19 +1,17 @@
 <?php
-<<<<<<< HEAD
 
 if (!defined('_PS_VERSION_'))
     exit;
 
-=======
-// test git
->>>>>>> master
+var_dump(__DIR__.'/classes/Hive.php');
+
 class Hive extends Module
 {
     public function __construct()
     {
         $this->name = 'Hive';
         $this->tab = 'front_office_features';
-        $this->version = '0.1.0';
+        $this->version = '0.1.1';
         $this->author = 'Damien Barber, Florent Bruziaux, Maxime Hardy';
         $this->displayName = 'Hive';
         $this->description = 'Description du module [A FAIRE]';
@@ -24,6 +22,7 @@ class Hive extends Module
         parent::__construct();
 
         $this->confirmUninstall = $this->l('Êtes-vous sûr de vouloir supprimer le module ?');
+
     }
 
     public function getContent(){
@@ -39,12 +38,26 @@ class Hive extends Module
         return true;
     }
 
+    public function uninstall()
+    {
+        if (!parent::uninstall())
+            return false;
+
+        return true;
+    }
+
     public function hookDisplayAdminProductsExtra($params) {
+       // $id_product = Tools::getValue($id_product);
+       // $product_name = Hive::getProductName();
+
+            $this->smarty->assign(array(
+                'productname' => "bite"
+            ));
+
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
 
     public function hookActionProductUpdate($params) {
-
 
     }
 }
