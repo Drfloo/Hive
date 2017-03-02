@@ -47,7 +47,7 @@ class Hive extends Module
     }
 
     public function hookDisplayAdminProductsExtra($params) {
-       $id_product = Tools::getAllValues();
+       $id_product = Tools::getValue('id_product');
 
         $product_name = HiveClasses::getProductName();
 
