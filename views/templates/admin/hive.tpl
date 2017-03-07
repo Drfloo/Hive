@@ -1,8 +1,8 @@
 <div class="container">
-    <h3>{$productname}{var_dump($supplier)}</h3>
-
+    <h3>{var_dump($supplier)}</h3>
+    {var_dump($defsupplier)}
     <p>Choississez le meillleur fournissseur pour ce produit</p>
-    <table class="table table-striped">
+    <table class="table table-condensed">
         <thead>
         <tr>
             <th>Fournisseur</th>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
         {foreach from=$supplier item=supp}
-        <tr>
+        <tr {if $supp['id_supplier'] == $defsupplier} class="success"{/if}>
             <td>{$supp['name_supplier']}</td>
             <td>{$supp['frais_supplier']}</td>
             <td>

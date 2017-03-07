@@ -54,6 +54,7 @@ class Hive extends Module
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
+                'defsupplier' => $product['defaultsupplier'],
             ));
 
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');

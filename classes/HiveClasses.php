@@ -4,17 +4,28 @@ class HiveClasses extends ObjectModel{
 
     public static function getProductName($idProduct,$idlang)
     {
-        $attributeProduct = Product::getProductAttributesIds($idProduct);
+        $product = new Product($idProduct);
+        $attributeProduct = $product->getDefaultIdProductAttribute();
+        $supplierDef = $product->id_supplier;
+        /**$product->id_supplier = 1;
+        $product->update();**/
+
         $product_supplier = ProductSupplier::getSupplierCollection($idProduct,true);
-        $bite = $product_supplier->getResults();
-        foreach($bite as $key=>&$supplier)
+        $bite = Supplier::getLiteSuppliersList($idlang,'array');
+
+
+        foreach($bite as &$supplier)
         {
 
-            $supp = new Supplier($supplier->id_supplier, $idlang);
+            $supp = new Supplier($supplier['id'], $idlang);
+
+
             $tab[] = ['name_supplier' => $supp->name,
                       'frais_supplier' => ProductSupplier::getProductSupplierPrice($idProduct,$attributeProduct,$supp->id_supplier),
-                      'status_supplier' => $supp->active];
+                      'status_supplier' => (bool)ProductSupplier::getIdByProductAndSupplier($idProduct,$attributeProduct,$supp->id_supplier),
+                      'id_supplier'  => $supp->id_supplier
 
+            ];
 
         }
         /*$bite = $bite->getResults();
@@ -22,7 +33,8 @@ class HiveClasses extends ObjectModel{
         $bite = $bite->id_supplier;*/
        $produit = [
            'nomproduit' => Product::getProductName($idProduct),
-           'supplie' =>  $tab,];
+           'supplie' =>  $tab,
+           'defaultsupplier' => $supplierDef ];
 
         return $produit;
     }
