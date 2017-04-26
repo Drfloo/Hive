@@ -36,7 +36,7 @@ class HiveClasses extends ObjectModel{
            'nomproduit' => Product::getProductName($idProduct),
            'supplie' =>  $tab,
            'defaultsupplier' => $supplierDef,
-           'stock' => $prod1,
+           //'stock' => $prod1,
        ];
 
 
