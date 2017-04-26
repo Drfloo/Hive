@@ -10,6 +10,7 @@
             </select>
         </div>
     </div>
+    {var_dump($stock)}
     <p>Choississez le meillleur fournissseur pour ce produit</p>
     <table class="table table-condensed table-striped product m-t-1">
         <thead>

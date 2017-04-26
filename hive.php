@@ -68,6 +68,7 @@ class Hive extends Module
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
+                'stock' => $product['stock'],
                 'defsupplier' => $product['defaultsupplier'],
             ));
 
