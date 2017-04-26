@@ -9,7 +9,7 @@ class HiveClasses extends ObjectModel{
         $attributeProduct = $product->getDefaultIdProductAttribute();
         $supplierDef = $product->id_supplier;
         $stock = $product->getAttributeCombinations($idlang,false);
-        $prod1 = Product::getQuantity($idProduct,1);
+        //$prod1 = Product::getQuantity($idProduct,1);
         /**$product->id_supplier = 1;
         $product->update();**/
 
