@@ -37,17 +37,17 @@ class Hive extends Module
         return true;
     }
 
-    function createDB(){
-        Db::getInstance()->Execute('
-            CREATE TABLE `prestashop`.`hive_bdd`
-                ( `id` INT NOT NULL AUTO_INCREMENT ,
-                 `id_product` INT NOT NULL ,
-                 `id_declinaiton` INT NOT NULL ,
-                 `id_supplier` INT NOT NULL ,
-                 `position` INT NOT NULL ,
-                 `quantity_supplier` INT NOT NULL ,
-        PRIMARY KEY (`id`)) ENGINE = InnoDB
-        ');
+    public function createDB(){
+      Db::getInstance()->Execute('
+      CREATE TABLE  `'._DB_PREFIX_.'hive_bdd`
+           `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+           `id_product` INT UNSIGNED NOT NULL,
+           `id_declinaiton` INT UNSIGNED NOT NULL,
+           `id_supplier` INT UNSIGNED NOT NULL,
+           `position` INT UNSIGNED NOT NULL,
+           `quantity_supplier` INT UNSIGNED NOT NULL,
+           PRIMARY KEY (`id`)
+           ) DEFAULT CHARSET=utf8;');
     }
 
     public function uninstall()
