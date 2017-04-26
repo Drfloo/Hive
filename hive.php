@@ -59,6 +59,7 @@ class Hive extends Module
         return true;
     }
 
+
     public function hookDisplayAdminProductsExtra($params) {
        $id_product = $params['id_product'];
 
