@@ -41,7 +41,17 @@ class Hive extends Module
            PRIMARY KEY (`id`)
            )ENGINE InnoDB DEFAULT CHARSET=utf8;');
     }
-
+    public function install(){
+        $this->createDB();
+        if (parent::install() == false
+            OR !$this->registerHook('displayFooter')
+            OR !$this->registerHook('actionProductUpdate')
+            OR !$this->registerHook('actionProductSave')
+            || !$this->registerHook('displayAdminProductsExtra')
+            || !$this->registerHook('actionAdminControllerSetMedia'))
+            return false;
+        return true;
+    }
     public function hookDisplayAdminProductsExtra($params) {
        $id_product = $params['id_product'];
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
@@ -61,17 +71,7 @@ class Hive extends Module
         $this->context->controller->addJS($this->_path.'views/js/hiveJs.js');
     }
 
-    public function install(){
-        $this->createDB();
-        if (parent::install() == false
-            OR !$this->registerHook('displayFooter')
-            OR !$this->registerHook('actionProductUpdate')
-            OR !$this->registerHook('actionProductSave')
-            || !$this->registerHook('displayAdminProductsExtra')
-            || !$this->registerHook('actionAdminControllerSetMedia'))
-            return false;
-        return true;
-    }
+
 
     public function uninstall()
     {
