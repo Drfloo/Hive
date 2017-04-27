@@ -47,8 +47,8 @@ class Hive extends Module
             OR !$this->registerHook('displayFooter')
             OR !$this->registerHook('actionProductUpdate')
             OR !$this->registerHook('actionProductSave')
-            || !$this->registerHook('displayAdminProductsExtra')
-            || !$this->registerHook('actionAdminControllerSetMedia'))
+            OR !$this->registerHook('displayAdminProductsExtra'))
+            //OR !$this->registerHook('actionAdminControllerSetMedia'))
             return false;
         return true;
     }
@@ -66,10 +66,10 @@ class Hive extends Module
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
 
-    public function actionAdminControllerSetMedia(){
-        $this->context->controller->addCSS($this->_path.'views/css/hiveStyles.css', 'all');
-        $this->context->controller->addJS($this->_path.'views/js/hiveJs.js');
-    }
+    //public function actionAdminControllerSetMedia(){
+      //  $this->context->controller->addCSS($this->_path.'views/css/hiveStyles.css', 'all');
+      //  $this->context->controller->addJS($this->_path.'views/js/hiveJs.js');
+  //  }
 
 
 
