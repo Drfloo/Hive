@@ -28,16 +28,27 @@ class Hive extends Module
        return $this->display(__FILE__, 'getContent.tpl');
     }
 
+    public function install(){
+      $this->createDB();
+        if (parent::install() == false
+            OR !$this->registerHook('displayFooter')
+            OR !$this->registerHook('displayAdminProductsExtra')
+            OR !$this->registerHook('actionProductUpdate'))
+            return false;
+        return true;
+    }
+
     function createDB(){
-        Db::getInstance()->Execute('
-            CREATE TABLE `prestashop`.`hive_bdd`
-                ( `id` INT NOT NULL AUTO_INCREMENT ,
-                 `id_product` INT NOT NULL ,
-                 `id_declinaiton` INT NOT NULL ,
-                 `id_supplier` INT NOT NULL ,
-                 `position` INT NOT NULL ,
-                 `quantity_supplier` INT NOT NULL ,
-                  PRIMARY KEY (`id`)) ENGINE = InnoDB');
+      Db::getInstance()->Execute('
+      CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'hive_bdd` (
+           `id` INT(11) NOT NULL AUTO_INCREMENT,
+           `id_product` INT(11) NOT NULL,
+           `id_declinaiton` INT(11) NOT NULL,
+           `id_supplier` INT(11) NOT NULL,
+           `position` INT(11) NOT NULL,
+           `quantity_supplier` INT(11) NOT NULL,
+           PRIMARY KEY (`id`)
+           )ENGINE InnoDB DEFAULT CHARSET=utf8;');
     }
 
     public function hookDisplayAdminProductsExtra($params) {
@@ -46,7 +57,7 @@ class Hive extends Module
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
-                'stock' => $product['stock'],
+                //'stock' => $product['stock'],
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
