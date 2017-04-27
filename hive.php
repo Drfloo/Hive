@@ -28,16 +28,6 @@ class Hive extends Module
        return $this->display(__FILE__, 'getContent.tpl');
     }
 
-    public function install(){
-      $this->createDB();
-        if (parent::install() == false
-            OR !$this->registerHook('displayFooter')
-            OR !$this->registerHook('displayAdminProductsExtra')
-            OR !$this->registerHook('actionProductUpdate'))
-            return false;
-        return true;
-    }
-
     function createDB(){
       Db::getInstance()->Execute('
       CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'hive_bdd` (
@@ -71,6 +61,7 @@ class Hive extends Module
     }
 
     public function install(){
+        $this->createDB();
         if (parent::install() == false
             || !$this->registerHook('displayAdminProductsExtra')
             || !$this->registerHook('actionAdminControllerSetMedia'))
