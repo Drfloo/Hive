@@ -66,7 +66,7 @@ class Hive extends Module
         if (parent::install() == false
             OR !$this->registerHook('displayFooter')
             OR !$this->registerHook('actionProductUpdate')
-            OR !$this->registerHook('actionProductSave'))
+            OR !$this->registerHook('actionProductSave')
             || !$this->registerHook('displayAdminProductsExtra')
             || !$this->registerHook('actionAdminControllerSetMedia'))
             return false;

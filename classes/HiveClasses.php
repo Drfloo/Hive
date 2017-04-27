@@ -9,6 +9,7 @@ class HiveClasses extends ObjectModel{
         $supplierDef = $product->id_supplier;
         $infoDeclination = $product->getAttributesResume($idlang);
         $quantity = Product::getQuantity($idProduct,1);
+        //Db::getInstance(->insert('._DB_PREFIX_.'hive_bdd',))
         /**$product->id_supplier = 1;
         $product->update();**/
        // $product_supplier = ProductSupplier::getSupplierCollection($idProduct,true);
