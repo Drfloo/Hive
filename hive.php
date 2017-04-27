@@ -28,6 +28,16 @@ class Hive extends Module
        return $this->display(__FILE__, 'getContent.tpl');
     }
 
+    public function install(){
+        if (parent::install() == false
+            OR !$this->registerHook('displayFooter')
+            OR !$this->registerHook('displayAdminProductsExtra')
+            OR !$this->registerHook('actionProductUpdate')
+            OR !$this->registerHook('actionProductSave'))
+            return false;
+        return true;
+    }
+
     function createDB(){
       Db::getInstance()->Execute('
       CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'hive_bdd` (
@@ -47,7 +57,7 @@ class Hive extends Module
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
-                //'stock' => $product['stock'],
+                'stock' => $product['stock'],
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
@@ -77,4 +87,7 @@ class Hive extends Module
         return true;
     }
 
+    public function hookActionProductSave($params){
+
+    }
 }

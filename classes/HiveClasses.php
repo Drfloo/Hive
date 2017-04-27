@@ -46,5 +46,8 @@ class HiveClasses extends ObjectModel{
        ];
         return $produit;
     }
+    public static function addProd(){
+
+    }
 
 }
