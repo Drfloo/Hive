@@ -1,16 +1,19 @@
 <hr />
 <div class="container">
-    <h3>{var_dump($supp['productname'])}</h3>
+    <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
-            <select class="form-control" data-live-search="true">
-                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-                <option data-tokens="mustard">Burger, Shake and a Smile</option>
-                <option data-tokens="frosting">Sugar, Spice and all things nice</option>
+            <label for="select">Choisir une déclinaison du produit</label>
+            <select class="form-control" data-live-search="true" id="select">
+                {foreach from=$attribute item=attributeDeclination}
+                    <option value="#">
+                        {$attributeDeclination["idDeclination"]}
+                        {$attributeDeclination["nameDeclination"]}
+                    </option>
+                {/foreach}
             </select>
         </div>
     </div>
-    {var_dump($stock)}
     <p>Choississez le meillleur fournissseur pour ce produit</p>
     <table class="table table-condensed table-striped product m-t-1">
         <thead>
@@ -19,7 +22,7 @@
             <th>Fournisseur</th>
             <th>Frais</th>
             <th>Activer/Désactiver</th>
-            <th>Quantité</th>
+            <th>Quantité (max: {$attributeDeclination["defaultQuantityDeclination"]})</th>
         </tr>
         </thead>
         <tbody>
@@ -42,6 +45,5 @@
         {/foreach}
         </tbody>
     </table>
+    {var_dump($infoDeclination)}
 </div>
-
-

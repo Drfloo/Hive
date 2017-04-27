@@ -28,15 +28,6 @@ class Hive extends Module
        return $this->display(__FILE__, 'getContent.tpl');
     }
 
-    public function install(){
-        if (parent::install() == false
-            OR !$this->registerHook('displayFooter')
-            OR !$this->registerHook('displayAdminProductsExtra')
-            OR !$this->registerHook('actionProductUpdate'))
-            return false;
-        return true;
-    }
-
     function createDB(){
         Db::getInstance()->Execute('
             CREATE TABLE `prestashop`.`hive_bdd`
@@ -46,17 +37,7 @@ class Hive extends Module
                  `id_supplier` INT NOT NULL ,
                  `position` INT NOT NULL ,
                  `quantity_supplier` INT NOT NULL ,
-        PRIMARY KEY (`id`)) ENGINE = InnoDB
-        ');
-    }
-
-    public function uninstall()
-    {
-        Db::getInstance()->Execute('DROP TABLE `'._DB_PREFIX_.'hive_bdd`');
-        if (!parent::uninstall())
-            return false;
-
-        return true;
+                  PRIMARY KEY (`id`)) ENGINE = InnoDB');
     }
 
     public function hookDisplayAdminProductsExtra($params) {
@@ -67,12 +48,31 @@ class Hive extends Module
                 'supplier' => $product['supplie'],
                 'stock' => $product['stock'],
                 'defsupplier' => $product['defaultsupplier'],
+                'infoDeclination' => $product['infoDeclination'],
+                'attribute' => $product['attribute'],
             ));
-
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
 
-    public function hookActionProductUpdate($params) {
-
+    public function actionAdminControllerSetMedia(){
+        $this->context->controller->addCSS($this->_path.'views/css/hiveStyles.css', 'all');
+        $this->context->controller->addJS($this->_path.'views/js/hiveJs.js');
     }
+
+    public function install(){
+        if (parent::install() == false
+            || !$this->registerHook('displayAdminProductsExtra')
+            || !$this->registerHook('actionAdminControllerSetMedia'))
+            return false;
+        return true;
+    }
+
+    public function uninstall()
+    {
+        Db::getInstance()->Execute('DROP TABLE `'._DB_PREFIX_.'hive_bdd`');
+        if (!parent::uninstall())
+            return false;
+        return true;
+    }
+
 }
