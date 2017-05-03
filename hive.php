@@ -47,8 +47,9 @@ class Hive extends Module
             OR !$this->registerHook('displayFooter')
             OR !$this->registerHook('actionProductUpdate')
             OR !$this->registerHook('actionProductSave')
-            OR !$this->registerHook('displayAdminProductsExtra'))
-            //OR !$this->registerHook('actionAdminControllerSetMedia'))
+            OR !$this->registerHook('displayAdminProductsExtra')
+            OR !$this->registerHook('actionAdminControllerSetMedia')
+            OR !$this->registerHook('actionProductUpdate'))
             return false;
         return true;
     }
@@ -84,5 +85,11 @@ class Hive extends Module
 
     public function hookActionProductSave($params){
 
+    }
+    public function hookActionProductUpdate($params){
+        $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+
+        foreach ($_POST as $tab){
+        }
     }
 }

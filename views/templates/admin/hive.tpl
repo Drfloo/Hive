@@ -33,7 +33,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <form method="gets" action="../../../controller/admin/AdminTraitementController.php">
+                            <form method="post" action="../../../controller/admin/AdminTraitementController.php">
                             {foreach from=$supplier item=supp}
                                     <tr {if $supp['id_supplier'] == $defsupplier} class="success"{/if}>
                                         <td>{counter}</td>
@@ -62,7 +62,6 @@
             {/foreach}
         </div>
     </div>
-    {var_dump($infoDeclination)}
     <script>
         $(document).ready(function(){
             $('.pbody').hide();

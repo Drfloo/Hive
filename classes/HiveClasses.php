@@ -9,6 +9,7 @@ class HiveClasses extends ObjectModel{
         $supplierDef = $product->id_supplier;
         $infoDeclination = $product->getAttributesResume($idlang);
         $quantity = Product::getQuantity($idProduct,1);
+
         /*Db::getInstance()->insert('hive_bdd',[
             'id_product' => 1,
            'id_declinaiton' => 2,
@@ -63,5 +64,6 @@ class HiveClasses extends ObjectModel{
            // foreach ()
         };
     }
+
 
 }
