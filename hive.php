@@ -62,6 +62,7 @@ class Hive extends Module
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
+                'test' => $product['test']
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
