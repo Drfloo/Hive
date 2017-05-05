@@ -5,10 +5,19 @@
     .panel-heading:hover{
         background-color: #fff;
     }
+    .up,.down{
+        cursor: pointer;
+        text-transform: uppercase;
+        color: #000000;
+    }
+    .up:hover,.down:hover{
+        color : #E6644E;
+    }
 </style>
 
 <div class="container">
     <hr />
+    {var_dump($quantitySupplier)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -27,40 +36,47 @@
                         <table class="table table-striped">
                             <thead>
                             <tr>
-                                <th>Position</th>
+                                <th></th>
                                 <th>Fournisseur</th>
                                 <th>Quantité (max: {$attributeDeclination["defaultQuantityDeclination"]})</th>
                                 <th>Activer / Desactiver</th>
+                                <th>Position</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <form type="post">
-                            {foreach from=$supplier item=supp}
+                                <form type="post">
+                                    {foreach from=$supplier item=supp}
                                     <tr {if $supp['id_supplier'] == $defsupplier} class="success"{/if}>
-                                        <td>{counter}</td>
+                                        <td>{counter}
+                                        </td>
                                         <td>{$supp['name_supplier']}</td>
                                         <td>
                                              <input type="hidden" name="idDeclination"
                                                value="{$attributeDeclination["idDeclination"]}">
+                                            <input type="hidden" name="idSupplier"
+                                                   value="{$supp["id_supplier"]}">
+                                            <input type="hidden" name="idProduct"
+                                                    value="{$attributeDeclination["idProduct"]}">
                                             <input type="hidden" name="nameDeclination"
-                                               value="{$attributeDeclination["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity{$attributeDeclination['idDeclination']}" type="number">
+                                                    value="{$attributeDeclination["nameDeclination"]}">
+                                            <input name="numberSupplierQuantity{$attributeDeclination['idDeclination']}"
+                                                   type="number">
                                         </td>
                                         <td>
                                             <label class="switch">
                                             <input type="checkbox"{if $supp['status_supplier']} checked{/if}>
-                            <div class="slider"></div>
-                            </label>
-                            </td>
-                            </tr>
-                            {/foreach}
-                            </form>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                    {/foreach}
+                                </form>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             {/foreach}
+            {var_dump($infoDeclination)}
 
         </div>
     </div>
@@ -69,6 +85,14 @@
             $('.pbody').hide();
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
+            });
+            $(".up,.down").click(function(){
+                var row = $(this).parents("tr:first");
+                if ($(this).is(".up")) {
+                    row.insertBefore(row.prev());
+                } else {
+                    row.insertAfter(row.next());
+                }
             });
         });
     </script>

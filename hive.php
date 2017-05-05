@@ -74,7 +74,6 @@ class Hive extends Module
   //  }
 
 
-
     public function uninstall()
     {
         Db::getInstance()->Execute('DROP TABLE `'._DB_PREFIX_.'hive_bdd`');
@@ -85,16 +84,21 @@ class Hive extends Module
 
 
     public function hookActionProductUpdate($params){
-        $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
         $data = Tools::getAllValues();
+        $tab = array(
+            "idProduct" => $data["idProduct"],
+            "idProductAttribute" => $data["idDeclination"],
+            "idSupplier" => $data["idSupplier"],
+            "position" => 1,
+            "quantitySupplier" => $data["numberSupplierQuantity34"],
+        );
 
-       $var = $data["numberSupplierQuantity34"];
         Db::getInstance()->insert('hive_bdd',[
-            'id_product' => 1,
-            'id_declinaiton' => 2,
-            'id_supplier' => 2,
+            'id_product' => $tab["idProduct"],
+            'id_product_attribute' => $tab["idProductAttribute"],
+            'id_supplier' => $tab["idSupplier"],
             'position' => 2,
-            'quantity_supplier'  => $var,
+            'quantity_supplier'  => $tab["quantitySupplier"],
         ]);
     }
 }
