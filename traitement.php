@@ -10,5 +10,5 @@ Db::getInstance()->insert('hive_bdd',[
           'id_declinaiton' => 2,
           'id_supplier' => 2,
           'position' => 2,
-          'quantity_supplier'  => $_POST['numberSupplierQuantity'],
+          'quantity_supplier'  => 3,
        ]);

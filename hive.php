@@ -83,13 +83,18 @@ class Hive extends Module
         return true;
     }
 
-    public function hookActionProductSave($params){
 
-    }
     public function hookActionProductUpdate($params){
         $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
+        $data = Tools::getAllValues();
 
-        foreach ($_POST as $tab){
-        }
+       $var = $data["numberSupplierQuantity34"];
+        Db::getInstance()->insert('hive_bdd',[
+            'id_product' => 1,
+            'id_declinaiton' => 2,
+            'id_supplier' => 2,
+            'position' => 2,
+            'quantity_supplier'  => $var,
+        ]);
     }
 }

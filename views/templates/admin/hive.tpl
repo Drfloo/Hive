@@ -16,6 +16,7 @@
                 <i class="material-icons">help</i>
                 <p>Choissiez parmi la liste des déclinaisons blablabla</p>
             </div>
+
             {foreach from=$attribute item=attributeDeclination}
             <div class="panel panel-default">
                 <div class="panel-heading phead">
@@ -33,7 +34,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <form method="post" action="../../../controller/admin/AdminTraitementController.php">
+                            <form type="post">
                             {foreach from=$supplier item=supp}
                                     <tr {if $supp['id_supplier'] == $defsupplier} class="success"{/if}>
                                         <td>{counter}</td>
@@ -43,15 +44,15 @@
                                                value="{$attributeDeclination["idDeclination"]}">
                                             <input type="hidden" name="nameDeclination"
                                                value="{$attributeDeclination["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity" type="number">
+                                            <input name="numberSupplierQuantity{$attributeDeclination['idDeclination']}" type="number">
                                         </td>
                                         <td>
                                             <label class="switch">
                                             <input type="checkbox"{if $supp['status_supplier']} checked{/if}>
-                                            <div class="slider"></div>
-                                            </label>
-                                        </td>
-                                    </tr>
+                            <div class="slider"></div>
+                            </label>
+                            </td>
+                            </tr>
                             {/foreach}
                             </form>
                             </tbody>
@@ -60,6 +61,7 @@
                 </div>
             </div>
             {/foreach}
+
         </div>
     </div>
     <script>
