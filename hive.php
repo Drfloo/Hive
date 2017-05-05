@@ -49,7 +49,8 @@ class Hive extends Module
             OR !$this->registerHook('actionProductSave')
             OR !$this->registerHook('displayAdminProductsExtra')
             OR !$this->registerHook('actionAdminControllerSetMedia')
-            OR !$this->registerHook('actionProductUpdate'))
+            OR !$this->registerHook('actionProductUpdate')
+            OR !$this->registerHook('actionProductAttributeUpdate'))
             return false;
         return true;
     }
@@ -84,11 +85,11 @@ class Hive extends Module
     }
 
 
-    public function hookActionProductUpdate($params){
+    public function hookActionProductAttributeUpdate($params){
         $request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
         $data = Tools::getAllValues();
 
-       $var = $data["numberSupplierQuantity34"];
+       $var = $data["numberSupplierQuantity"];
         Db::getInstance()->insert('hive_bdd',[
             'id_product' => 1,
             'id_declinaiton' => 2,
@@ -96,5 +97,7 @@ class Hive extends Module
             'position' => 2,
             'quantity_supplier'  => $var,
         ]);
+        return true;
+
     }
 }

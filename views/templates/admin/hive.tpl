@@ -44,7 +44,7 @@
                                                value="{$attributeDeclination["idDeclination"]}">
                                             <input type="hidden" name="nameDeclination"
                                                value="{$attributeDeclination["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity{$attributeDeclination['idDeclination']}" type="number">
+                                            <input name="numberSupplierQuantity" type="number">
                                         </td>
                                         <td>
                                             <label class="switch">
