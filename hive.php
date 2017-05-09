@@ -34,7 +34,7 @@ class Hive extends Module
       CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'hive_bdd` (
            `id` INT(11) NOT NULL AUTO_INCREMENT,
            `id_product` INT(11) NOT NULL,
-           `id_declinaiton` INT(11) NOT NULL,
+           `id_product_attribute` INT(11) NOT NULL,
            `id_supplier` INT(11) NOT NULL,
            `position` INT(11) NOT NULL,
            `quantity_supplier` INT(11) NOT NULL,
