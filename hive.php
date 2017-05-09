@@ -55,8 +55,9 @@ class Hive extends Module
         return true;
     }
     public function hookDisplayAdminProductsExtra($params) {
+        $id_lang = $this->context->language->id;
        $id_product = $params['id_product'];
-        $product = HiveClasses::getProductName($id_product,$this->context->language->id);
+        $product = HiveClasses::getProductName($id_product,$id_lang);
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
@@ -64,7 +65,7 @@ class Hive extends Module
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
-                'test' => $product['test']
+                'test' => HiveClasses::addProd(1,$id_lang),
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
@@ -88,7 +89,6 @@ class Hive extends Module
     public function hookActionProductUpdate($params){
         if ($this->isSaved)
             return null;
-
         $data = Tools::getAllValues();
         $isInsert = Db::getInstance()->insert('hive_bdd',[
                 "id_product" => $data['idProduct34'],
@@ -97,7 +97,6 @@ class Hive extends Module
                 "position" => 1,
                 "quantity_supplier" => $data["numberSupplierQuantity34"],
             ]);
-
         if ($isInsert)
             $this->isSaved = true;
 
