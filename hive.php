@@ -83,25 +83,24 @@ class Hive extends Module
         return true;
     }
 
+    protected $isSaved = false;
 
     public function hookActionProductUpdate($params){
+        if ($this->isSaved)
+            return null;
+
         $data = Tools::getAllValues();
-        $tab = array(
-            "idProduct" => $data["idProduct"],
-            "idProductAttribute" => $data["idDeclination"],
-            "idSupplier" => $data["idSupplier"],
+        $isInsert = Db::getInstance()->insert('hive_bdd',[
+            "id_product" => $data['idProduct34'],
+            "id_declinaiton" => $data['idDeclination34'],
+            "id_supplier" => $data['idSupplier34'],
             "position" => 1,
-            "quantitySupplier" => $data["numberSupplierQuantity34"],
-        );
-
-        Db::getInstance()->insert('hive_bdd',[
-            'id_product' => $tab["idProduct"],
-            'id_product_attribute' => $tab["idProductAttribute"],
-            'id_supplier' => $tab["idSupplier"],
-            'position' => 2,
-            'quantity_supplier'  => $tab["quantitySupplier"],
+            "quantity_supplier" => $data["numberSupplierQuantity34"],
         ]);
-        return true;
 
+        if ($isInsert)
+            $this->isSaved = true;
+
+        return true;
     }
 }

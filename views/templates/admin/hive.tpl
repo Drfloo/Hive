@@ -51,14 +51,15 @@
                                         </td>
                                         <td>{$supp['name_supplier']}</td>
                                         <td>
-                                             <input type="hidden" name="idDeclination"
-                                               value="{$attributeDeclination["idDeclination"]}">
-                                            <input type="hidden" name="idSupplier"
-                                                   value="{$supp["id_supplier"]}">
-                                            <input type="hidden" name="idProduct"
-                                                    value="{$attributeDeclination["idProduct"]}">
+                                            <input type="hidden"
+                                                   name="idDeclination{$attributeDeclination['idDeclination']}"
+                                                   value="{$attributeDeclination["idDeclination"]}">
+                                            <input type="hidden" name="idSupplier$attributeDeclination["idDeclination"]}"
+                                            value="{$supp["id_supplier"]}">
+                                            <input type="hidden" name="idProduct{$attributeDeclination['idDeclination']}"
+                                                   value="{$attributeDeclination["idProduct"]}">
                                             <input type="hidden" name="nameDeclination"
-                                                    value="{$attributeDeclination["nameDeclination"]}">
+                                                   value="{$attributeDeclination["nameDeclination"]}">
                                             <input name="numberSupplierQuantity{$attributeDeclination['idDeclination']}"
                                                    type="number">
                                         </td>
