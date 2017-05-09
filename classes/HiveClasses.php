@@ -10,13 +10,7 @@ class HiveClasses extends ObjectModel{
         $infoDeclination = $product->getAttributesResume($idlang);
         $quantity = Product::getQuantity($idProduct,1);
 
-        /*Db::getInstance()->insert('hive_bdd',[
-            'id_product' => 1,
-           'id_declinaiton' => 2,
-           'id_supplier' => 2,
-           'position' => 2,
-           'quantity_supplier'  => 2,
-        ]);*/
+
         $test =$product->id_supplier;
         $att = new Attribute(1);
         /**$product->id_supplier = 1;
@@ -40,6 +34,7 @@ class HiveClasses extends ObjectModel{
 
         foreach ($infoDeclination as &$item){
             $tabInfoDeclinaition[] = [
+                'idProduct' => $item["id_product"],
                 'idDeclination' => $item["id_product_attribute"],
                 'nameDeclination' => $item["attribute_designation"],
                 'defaultQuantityDeclination' => $item["quantity"],
@@ -53,14 +48,12 @@ class HiveClasses extends ObjectModel{
            'stock' => $quantity,
            'infoDeclination' => $infoDeclination,
            'attribute' => $tabInfoDeclinaition,
-           'test' => $test,
        ];
         return $produit;
     }
     public static function addProd($id_product){
         $product = new Product($id_product);
         if(Product::getDefaultAttribute($id_product) != 0){
-
            // foreach ()
         };
     }

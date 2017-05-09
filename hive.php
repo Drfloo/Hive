@@ -91,12 +91,12 @@ class Hive extends Module
 
         $data = Tools::getAllValues();
         $isInsert = Db::getInstance()->insert('hive_bdd',[
-            "id_product" => $data['idProduct34'],
-            "id_declinaiton" => $data['idDeclination34'],
-            "id_supplier" => $data['idSupplier34'],
-            "position" => 1,
-            "quantity_supplier" => $data["numberSupplierQuantity34"],
-        ]);
+                "id_product" => $data['idProduct34'],
+                "id_product_attribute" => $data['idDeclination34'],
+                "id_supplier" => $data['idSupplier34'],
+                "position" => 1,
+                "quantity_supplier" => $data["numberSupplierQuantity34"],
+            ]);
 
         if ($isInsert)
             $this->isSaved = true;
