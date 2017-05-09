@@ -60,7 +60,8 @@
                                                    value="{$attributeDeclination["idProduct"]}">
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$attributeDeclination["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity{$attributeDeclination['idDeclination']}"
+                                            <input name=
+                                                   "numberSupplierQuantity{$attributeDeclination['idDeclination']}{$supp['id_supplier']}"
                                                    type="number">
                                         </td>
                                         <td>
@@ -68,6 +69,7 @@
                                             <input type="checkbox"{if $supp['status_supplier']} checked{/if}>
                                             </label>
                                         </td>
+                                        <td><span></span></td>
                                     </tr>
                                     {/foreach}
                                 </form>
