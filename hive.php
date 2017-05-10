@@ -51,6 +51,12 @@ class Hive extends Module
             OR !$this->registerHook('actionAdminControllerSetMedia')
             OR !$this->registerHook('actionProductUpdate')
             OR !$this->registerHook('actionProductAttributeUpdate'))
+            // OR !$this->registerHook('actionProductCancel'))
+            // OR !$this->registerHook('actionProductDelete'))
+            // OR !$this->registerHook('actionProductOutOfStock'))
+            // OR !$this->registerHook('actionUpdateQuantity'))
+            // OR !$this->registerHook('actionUpdateproduct﻿'))
+            // OR !$this->registerHook('actionProductAdd﻿'))
             return false;
         return true;
     }
@@ -103,4 +109,44 @@ class Hive extends Module
 
         return true;
     }
+
+
+
+  //  public function hookActionProductCancel($params) // annulation d'un produit dans une commande /controllers/admin/AdminOrdersController.php
+  //  {
+        /*
+          params
+          array(
+            'order' => (object) Order object,
+            'id_order_detail' => (int) Order Detail ID
+); 
+        */
+  //  }
+
+
+  //public function hookActionProductDelete($params) // suppression d'un produit /classes/Product.php
+  //  {
+
+  //  }
+
+  //public function hookActionProductOutOfStock($params) // Plus de stock  /themes/classic/templates/catalog/_partials/product-details.tpl
+  //  {
+
+  //  }
+
+  //public function hookActionUpdateQuantity($params) // Quand le client achéte /classes/stock/StockAvailable.php
+  //  {
+
+  //  }
+
+  //public function hookActionUpdateproduct($params) // Quand MàJ du produit  /classes/Product.php
+  //  {
+
+  //  }
+
+  //public function hookActionProductAdd($params) // Quand ajout d'un produit  /controllers/admin/AdminProductsController.php
+  //  {
+
+  //  }
+
 }
