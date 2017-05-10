@@ -64,6 +64,7 @@ class Hive extends Module
     }
     public function hookDisplayAdminProductsExtra($params) {
        $id_product = $params['id_product'];
+       $caca = HiveClasses::dataProductResume(1,$this->context->language->id);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
@@ -72,7 +73,7 @@ class Hive extends Module
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
-                'test' => HiveClasses::dataProductResume(1,$this->context->language->id))
+                'test' => $caca[0] )
             );
         $sql = "SELECT name, id_supplier, position, id_product_attribute 
                 FROM ps_supplier 

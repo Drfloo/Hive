@@ -111,6 +111,7 @@ class HiveClasses extends ObjectModel{
                 WHERE id_product_attribute =".$id_declin."
                 ORDER BY position ASC";
                 $results = Db::getInstance()->ExecuteS($sql);
+                $hive = null;
                 foreach ($results as $ligne){
                     $row = [
                         'id_supplier' => $ligne['id_supplier'],
