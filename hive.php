@@ -72,9 +72,13 @@ class Hive extends Module
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
-                'test' => "",
-            ));
-        $sql = "SELECT name, id_supplier, position FROM ps_supplier NATURAL JOIN ps_hive_bdd ORDER BY position ASC";
+                'test' => HiveClasses::dataProductResume(1,$this->context->language->id))
+            );
+        $sql = "SELECT name, id_supplier, position, id_product_attribute 
+                FROM ps_supplier 
+                NATURAL JOIN ps_hive_bdd 
+                WHERE id_product_attribute = 34
+                ORDER BY position ASC";
         if ($results = Db::getInstance()->ExecuteS($sql))
             $this->smarty->assign( 'position', $results);
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');

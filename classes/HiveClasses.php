@@ -32,14 +32,6 @@ class HiveClasses extends ObjectModel{
             ];
         }
 
-        foreach ($infoDeclination as &$item){
-            $tabInfoDeclinaition[] = [
-                'idProduct' => $item["id_product"],
-                'idDeclination' => $item["id_product_attribute"],
-                'nameDeclination' => $item["attribute_designation"],
-                'defaultQuantityDeclination' => $item["quantity"],
-            ];
-        }
 
        $produit = [
            'nomproduit' => Product::getProductName($idProduct),
@@ -47,7 +39,6 @@ class HiveClasses extends ObjectModel{
            'defaultsupplier' => $supplierDef,
            'stock' => $quantity,
            'infoDeclination' => $infoDeclination,
-           'attribute' => $tabInfoDeclinaition,
        ];
         return $produit;
     }
@@ -102,6 +93,37 @@ class HiveClasses extends ObjectModel{
             }
         }
     }
-
+    public static  function dataProductResume($id_product,$idlang){
+        if(Product::getDefaultAttribute($id_product) !=0 ){
+            $product = new Product($id_product);
+            $infoDeclination = $product->getAttributesResume($idlang);
+            foreach ($infoDeclination as &$item){
+                $tabInfoDeclinaition = [
+                    'idProduct' => $item["id_product"],
+                    'idDeclination' => $item["id_product_attribute"],
+                    'nameDeclination' => $item["attribute_designation"],
+                    'hive' => ''
+                ];
+                $id_declin = $tabInfoDeclinaition['idDeclination'];
+                $sql = "SELECT name, id_supplier, position, id_product_attribute 
+                FROM ps_supplier 
+                NATURAL JOIN ps_hive_bdd 
+                WHERE id_product_attribute =".$id_declin."
+                ORDER BY position ASC";
+                $results = Db::getInstance()->ExecuteS($sql);
+                foreach ($results as $ligne){
+                    $row = [
+                        'id_supplier' => $ligne['id_supplier'],
+                        'name_supplier' => $ligne['name'],
+                        'position' => $ligne['position']
+                    ];
+                    $hive[]= $row;
+                }
+                $tabInfoDeclinaition['hive'] = $hive;
+                $global[]=$tabInfoDeclinaition;
+            }
+            return $global;
+        }
+    }
 
 }
