@@ -17,6 +17,7 @@
 
 <div class="container">
     <hr />
+    {var_dump($test)}
     {var_dump($quantitySupplier)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
@@ -60,8 +61,7 @@
                                                    value="{$attributeDeclination["idProduct"]}">
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$attributeDeclination["nameDeclination"]}">
-                                            <input name=
-                                                   "numberSupplierQuantity{$attributeDeclination['idDeclination']}{$supp['id_supplier']}"
+                                            <input name="numberSupplierQuantity{$attributeDeclination['idDeclination']}{$supp['id_supplier']}"
                                                    type="number">
                                         </td>
                                         <td>

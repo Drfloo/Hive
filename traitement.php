@@ -6,9 +6,9 @@
  * Time: 16:51
  */
 Db::getInstance()->insert('hive_bdd',[
-           'id_product' => 1,
-          'id_declinaiton' => 2,
-          'id_supplier' => 2,
-          'position' => 2,
-          'quantity_supplier'  => 3,
-       ]);
+    'id_product' => 1,
+    'id_declinaiton' => 2,
+    'id_supplier' => 2,
+    'position' => 2,
+    'quantity_supplier'  => 3,
+]);
