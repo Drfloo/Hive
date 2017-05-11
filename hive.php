@@ -60,7 +60,9 @@ class Hive extends Module
             // OR !$this->registerHook('actionUpdateproduct﻿'))
             // OR !$this->registerHook('actionProductAdd﻿'))
             OR !$this->registerHook('actionProductAttributeUpdate')
-            OR !$this->registerHook('actionUpdateQuantity'))
+            OR !$this->registerHook('actionUpdateQuantity')
+            OR !$this->registerHook('actionProductDelete')
+            OR !$this->registerHook('actionAttributeDelete'))
             return false;
         return true;
     }
@@ -133,10 +135,15 @@ class Hive extends Module
   //  }
 
 
-  //public function hookActionProductDelete($params) // suppression d'un produit /classes/Product.php
-  //  {
+ public function hookActionProductDelete($params){
+      $id_product = $params['id_product'];
+      Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product`= '.$id_product.'');
+    }
 
-  //  }
+  public function hookActionAttributeDelete($params){
+      $id_product_attribute = $params['idDeclination'];
+      Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product_attribute`= '.$id_product_attribute.'');
+  }
 
   //public function hookActionProductOutOfStock($params) // Plus de stock  /themes/classic/templates/catalog/_partials/product-details.tpl
   //  {
