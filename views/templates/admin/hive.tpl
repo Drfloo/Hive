@@ -64,7 +64,7 @@
                                         </td>
                                         <td>
                                             <label class="switch">
-                                            <input type="checkbox"{if $supp['status_supplier']} checked{/if}>
+                                            <input type="checkbox"{if $showDetailProduct['supplier_enabled']} checked{/if}>
                                             </label>
                                         </td>
                                         <td><input type="radio" name="checkbox"></td>

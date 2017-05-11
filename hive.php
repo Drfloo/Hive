@@ -38,6 +38,8 @@ class Hive extends Module
            `id_supplier` INT(11) NOT NULL,
            `position` INT(11) NOT NULL,
            `quantity_supplier` INT(11) NOT NULL,
+           `supplier_default` BOOLEAN NOT NULL default 0,
+           `supplier_enabled` BOOLEAN NOT NULL default 1,
            PRIMARY KEY (`id`)
            )ENGINE InnoDB DEFAULT CHARSET=utf8;');
     }
@@ -51,13 +53,14 @@ class Hive extends Module
             OR !$this->registerHook('displayAdminProductsExtra')
             OR !$this->registerHook('actionAdminControllerSetMedia')
             OR !$this->registerHook('actionProductUpdate')
-            OR !$this->registerHook('actionProductAttributeUpdate'))
             // OR !$this->registerHook('actionProductCancel'))
             // OR !$this->registerHook('actionProductDelete'))
             // OR !$this->registerHook('actionProductOutOfStock'))
             // OR !$this->registerHook('actionUpdateQuantity'))
             // OR !$this->registerHook('actionUpdateproduct﻿'))
             // OR !$this->registerHook('actionProductAdd﻿'))
+            OR !$this->registerHook('actionProductAttributeUpdate')
+            OR !$this->registerHook('actionUpdateQuantity'))
             return false;
         return true;
     }
@@ -106,18 +109,14 @@ class Hive extends Module
         //HiveClasses::addProdInstall(1, $this->context->language->id);
 
         $data = Tools::getAllValues();
-        $isInsert = Db::getInstance()->insert('hive_bdd',[
-                "id_product" => $data['idProduct34'],
-                "id_product_attribute" => $data['idDeclination34'],
-                "id_supplier" => $data['idSupplier34'],
-                "position" => $data["compteur34"],
-                "quantity_supplier" => $data["numberSupplierQuantity341"],
-            ]);
-
+        $isInsert = 1;
         if ($isInsert)
             $this->isSaved = true;
 
         return true;
+    }
+    public function hookActionUpdateQuantity($params){
+        var_dump($params);
     }
 
 

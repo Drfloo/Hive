@@ -46,13 +46,14 @@ class HiveClasses extends ObjectModel{
         return count($listSupplier);
     }
     public static function defaultQuantitySupplier($quantity,$numberSupplier){
-        $quantity = floor($quantity/$numberSupplier);
-        $tab = array($quantity + ($quantity%$numberSupplier));
-        $tabResult = array_pad($tab,$numberSupplier,$quantity);
+        $quantityFloor = floor($quantity/$numberSupplier);
+        $tab = array($quantityFloor + ($quantity%$numberSupplier));
+        $tabResult = array_pad($tab,$numberSupplier,$quantityFloor);
         return $tabResult;
     }
     public static function addProdInstall($id_product,$id_lang){
         $product = new Product($id_product);
+        $quantityProduct = Product::getQuantity($id_product);
         $listSupplier = Supplier::getLiteSuppliersList($id_lang,'array');
         $numberSuppliers = self::numberOfSupplier($id_lang);
 
@@ -73,7 +74,20 @@ class HiveClasses extends ObjectModel{
                    $i++;
                }
            }
-        };
+        } else{
+           $i=0;
+           $tab = self::defaultQuantitySupplier($quantityProduct,$numberSuppliers);
+           foreach ($listSupplier as $supplier) {
+               Db::getInstance()->insert('hive_bdd', [
+                   'id_product' => $id_product,
+                   "id_product_attribute" => null,
+                   'id_supplier' => $supplier['id'],
+                   'position' => ($i + 1),
+                   'quantity_supplier' => $tab[$i],
+               ],true);
+               $i++;
+           }
+       }
     }
     public static  function dataProductResume($id_product,$idlang){
         if(Product::getDefaultAttribute($id_product) !=0 ){
@@ -88,7 +102,7 @@ class HiveClasses extends ObjectModel{
                 ];
                 $id_declin = $tabInfoDeclination['idDeclination'];
 
-                $sql = "SELECT name, id_supplier, position, id_product_attribute, quantity_supplier
+                $sql = "SELECT name, id_supplier, position, id_product_attribute, quantity_supplier,supplier_enabled,supplier_default
                 FROM ps_hive_bdd
                 NATURAL JOIN ps_supplier
                 WHERE id_product_attribute =".$id_declin."
@@ -100,7 +114,9 @@ class HiveClasses extends ObjectModel{
                         'id_supplier' => $ligne['id_supplier'],
                         'name_supplier' => $ligne['name'],
                         'position' => $ligne['position'],
-                        'quantity_supplier' => $ligne['quantity_supplier']
+                        'quantity_supplier' => $ligne['quantity_supplier'],
+                        'supplier_enabled' => $ligne['supplier_enabled'],
+                        'supplier_default' => $ligne['supplier_default']
                     ];
                     $hive[]= $row;
                 }
