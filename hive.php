@@ -53,7 +53,8 @@ class Hive extends Module
             OR !$this->registerHook('displayAdminProductsExtra')
             OR !$this->registerHook('actionAdminControllerSetMedia')
             OR !$this->registerHook('actionProductUpdate')
-            OR !$this->registerHook('actionProductAttributeUpdate'))
+            OR !$this->registerHook('actionProductAttributeUpdate')
+            OR !$this->registerHook('actionUpdateQuantity'))
             return false;
         return true;
     }
@@ -102,17 +103,13 @@ class Hive extends Module
         //HiveClasses::addProdInstall(1, $this->context->language->id);
 
         $data = Tools::getAllValues();
-        $isInsert = Db::getInstance()->insert('hive_bdd',[
-                "id_product" => $data['idProduct34'],
-                "id_product_attribute" => $data['idDeclination34'],
-                "id_supplier" => $data['idSupplier34'],
-                "position" => $data["compteur34"],
-                "quantity_supplier" => $data["numberSupplierQuantity341"],
-            ]);
-
+        $isInsert = 1;
         if ($isInsert)
             $this->isSaved = true;
 
         return true;
+    }
+    public function hookActionUpdateQuantity($params){
+        var_dump($params);
     }
 }
