@@ -13,7 +13,6 @@
 <div class="container">
     <hr />
     {var_dump($test)}
-    {var_dump($position)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -21,10 +20,10 @@
                 <i class="material-icons">help</i>
                 <p>Choissiez parmi la liste des déclinaisons blablabla</p>
             </div>
-            {foreach from=$attribute item=attributeDeclination}
+            {foreach from=$test item=showProduct}
             <div class="panel panel-default">
                 <div class="panel-heading phead">
-                    <strong>{$attributeDeclination["nameDeclination"]}</strong>
+                    <strong>{$showProduct["nameDeclination"]} id = {$showProduct["idDeclination"]}</strong>
                 </div>
                 <div class="panel-body pbody">
                     <div>
@@ -33,34 +32,35 @@
                             <tr>
                                 <th>Ordre</th>
                                 <th>Fournisseur</th>
-                                <th>Quantité (max: {$attributeDeclination["defaultQuantityDeclination"]})</th>
+                                <th>Quantité</th>
                                 <th>Activer / Desactiver</th>
                                 <th>Fournisseur par défaut</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {foreach from=$position item=position_supplier}
+                            {foreach from=$showProduct["hive"] item=showDetailProduct}
                                 <form type="post">
                                     <tr>
                                         <td><span name="compteur">
-                                               {$position_supplier['position']}
+                                               {$showDetailProduct['position']}
                                             </span>
                                             <input class="value_position" type="hidden" value="0">
                                         </td>
-                                        <td> {$position_supplier['name']}</td>
+                                        <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
                                             <input type="hidden"
-                                                   name="idDeclination{$attributeDeclination['idDeclination']}"
-                                                   value="{$attributeDeclination["idDeclination"]}">
-                                            <input type="hidden" name="idSupplier{$attributeDeclination['idDeclination']}"
+                                                   name="idDeclination{$showDetailProduct['idDeclination']}"
+                                                   value="{$showDetailProduct["idDeclination"]}">
+                                            <input type="hidden" name="idSupplier{$showDetailProduct['idDeclination']}"
                                             value="{$supp['id_supplier']}">
-                                            <input type="hidden" name="idProduct{$attributeDeclination['idDeclination']}"
-                                                   value="{$attributeDeclination["idProduct"]}">
+                                            <input type="hidden" name="idProduct{$showDetailProduct['idDeclination']}"
+                                                   value="{$showDetailProduct["idProduct"]}">
                                             <input type="hidden" name="nameDeclination"
-                                                   value="{$attributeDeclination["nameDeclination"]}">
+                                                   value="{$showDetailProduct["nameDeclination"]}">
                                             <input name=
-                                                   "numberSupplierQuantity{$attributeDeclination['idDeclination']}{$supp['id_supplier']}"
-                                                   type="number">
+                                                   "numberSupplierQuantity{$showDetailProduct['idDeclination']}
+                                                    {$showDetailProduct['id_supplier']}"
+                                                   type="number" value="{$showDetailProduct['quantity_supplier']}">
                                         </td>
                                         <td>
                                             <label class="switch">
@@ -70,14 +70,14 @@
                                         <td><input type="radio" name="checkbox"></td>
                                     </tr>
                                 </form>
-                            {/foreach}
+                                {/foreach}
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             {/foreach}
-            {var_dump($infoDeclination)}
+            <!--{var_dump($infoDeclination)}-->
         </div>
     </div>
     <script>
@@ -93,10 +93,6 @@
                         $(this).find('td span').first().html(index + 1);
                     });
                 }
-            });
-           $(function(){
-                count = $("table tr").children().;
-                $(".value_position").val(count);
             });
         });
     </script>
