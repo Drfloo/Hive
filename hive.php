@@ -62,7 +62,7 @@ class Hive extends Module
             OR !$this->registerHook('actionProductAttributeUpdate')
             OR !$this->registerHook('actionUpdateQuantity')
             OR !$this->registerHook('actionProductDelete')
-            OR !$this->registerHook('actionAttributeDelete'))
+            OR !$this->registerHook('actionProductAttributeDelete'))
             return false;
         return true;
     }
@@ -130,7 +130,7 @@ class Hive extends Module
           array(
             'order' => (object) Order object,
             'id_order_detail' => (int) Order Detail ID
-); 
+);
         */
   //  }
 
@@ -140,8 +140,8 @@ class Hive extends Module
       Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product`= '.$id_product.'');
     }
 
-  public function hookActionAttributeDelete($params){
-      $id_product_attribute = $params['idDeclination'];
+  public function hookActionProductAttributeDelete($params){
+      $id_product_attribute = $params['id_product_attribute'];
       Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product_attribute`= '.$id_product_attribute.'');
   }
 
