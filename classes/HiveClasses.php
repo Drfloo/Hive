@@ -88,7 +88,7 @@ class HiveClasses extends ObjectModel{
                 ];
                 $id_declin = $tabInfoDeclination['idDeclination'];
 
-                $sql = "SELECT name, id_supplier, position, id_product_attribute, quantity_supplier
+                $sql = "SELECT name, id_supplier, position, id_product_attribute, quantity_supplier,supplier_enabled,supplier_default
                 FROM ps_hive_bdd
                 NATURAL JOIN ps_supplier
                 WHERE id_product_attribute =".$id_declin."
@@ -100,7 +100,9 @@ class HiveClasses extends ObjectModel{
                         'id_supplier' => $ligne['id_supplier'],
                         'name_supplier' => $ligne['name'],
                         'position' => $ligne['position'],
-                        'quantity_supplier' => $ligne['quantity_supplier']
+                        'quantity_supplier' => $ligne['quantity_supplier'],
+                        'supplier_enabled' => $ligne['supplier_enabled'],
+                        'supplier_default' => $ligne['supplier_default']
                     ];
                     $hive[]= $row;
                 }

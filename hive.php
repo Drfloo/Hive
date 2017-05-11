@@ -38,6 +38,8 @@ class Hive extends Module
            `id_supplier` INT(11) NOT NULL,
            `position` INT(11) NOT NULL,
            `quantity_supplier` INT(11) NOT NULL,
+           `supplier_default` BOOLEAN NOT NULL default 0,
+           `supplier_enabled` BOOLEAN NOT NULL default 1,
            PRIMARY KEY (`id`)
            )ENGINE InnoDB DEFAULT CHARSET=utf8;');
     }
