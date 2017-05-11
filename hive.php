@@ -34,7 +34,7 @@ class Hive extends Module
       CREATE TABLE IF NOT EXISTS `'._DB_PREFIX_.'hive_bdd` (
            `id` INT(11) NOT NULL AUTO_INCREMENT,
            `id_product` INT(11) NOT NULL,
-           `id_product_attribute` INT(11) NOT NULL,
+           `id_product_attribute` INT(11) NULL,
            `id_supplier` INT(11) NOT NULL,
            `position` INT(11) NOT NULL,
            `quantity_supplier` INT(11) NOT NULL,
@@ -43,6 +43,7 @@ class Hive extends Module
     }
     public function install(){
         $this->createDB();
+        $this->initDB();
         if (parent::install() == false
             OR !$this->registerHook('displayFooter')
             OR !$this->registerHook('actionProductUpdate')
@@ -60,8 +61,16 @@ class Hive extends Module
             return false;
         return true;
     }
+    public function initDB(){
+        $id_lang = $this->context->language->id;
+        $products = Product::getProducts($id_lang,0,10000,'id_product','ASC');
+        foreach ($products as $product){
+            HiveClasses::addProdInstall((int)$product['id_product'],$id_lang);
+        }
+    }
     public function hookDisplayAdminProductsExtra($params) {
        $id_product = $params['id_product'];
+       $caca = HiveClasses::dataProductResume(1,$this->context->language->id);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
@@ -70,9 +79,13 @@ class Hive extends Module
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
-                'test' => $product['test']
-            ));
-        $sql = "SELECT name, id_supplier, position FROM ps_supplier NATURAL JOIN ps_hive_bdd ORDER BY position ASC";
+                'test' => $caca[0] )
+            );
+        $sql = "SELECT name, id_supplier, position, id_product_attribute 
+                FROM ps_supplier 
+                NATURAL JOIN ps_hive_bdd 
+                WHERE id_product_attribute = 34
+                ORDER BY position ASC";
         if ($results = Db::getInstance()->ExecuteS($sql))
             $this->smarty->assign( 'position', $results);
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');

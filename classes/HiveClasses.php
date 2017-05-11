@@ -32,14 +32,6 @@ class HiveClasses extends ObjectModel{
             ];
         }
 
-        foreach ($infoDeclination as &$item){
-            $tabInfoDeclinaition[] = [
-                'idProduct' => $item["id_product"],
-                'idDeclination' => $item["id_product_attribute"],
-                'nameDeclination' => $item["attribute_designation"],
-                'defaultQuantityDeclination' => $item["quantity"],
-            ];
-        }
 
        $produit = [
            'nomproduit' => Product::getProductName($idProduct),
@@ -47,7 +39,6 @@ class HiveClasses extends ObjectModel{
            'defaultsupplier' => $supplierDef,
            'stock' => $quantity,
            'infoDeclination' => $infoDeclination,
-           'attribute' => $tabInfoDeclinaition,
        ];
         return $produit;
     }
@@ -56,13 +47,14 @@ class HiveClasses extends ObjectModel{
         return count($listSupplier);
     }
     public static function defaultQuantitySupplier($quantity,$numberSupplier){
-        $quantity = floor($quantity/$numberSupplier);
-        $tab = array($quantity + ($quantity%$numberSupplier));
-        $tabResult = array_pad($tab,$numberSupplier,$quantity);
+        $quantityFloor = floor($quantity/$numberSupplier);
+        $tab = array($quantityFloor + ($quantity%$numberSupplier));
+        $tabResult = array_pad($tab,$numberSupplier,$quantityFloor);
         return $tabResult;
     }
     public static function addProdInstall($id_product,$id_lang){
         $product = new Product($id_product);
+        $quantityProduct = Product::getQuantity($id_product);
         $listSupplier = Supplier::getLiteSuppliersList($id_lang,'array');
         $numberSuppliers = self::numberOfSupplier($id_lang);
 
@@ -85,8 +77,54 @@ class HiveClasses extends ObjectModel{
                }
 
            }
-        };
+        }
+        else{
+            $i=0;
+            $tab = self::defaultQuantitySupplier($quantityProduct,$numberSuppliers);
+            foreach ($listSupplier as $supplier) {
+                Db::getInstance()->insert('hive_bdd', [
+                    'id_product' => $id_product,
+                    "id_product_attribute" => null,
+                    'id_supplier' => $supplier['id'],
+                    'position' => ($i + 1),
+                    'quantity_supplier' => $tab[$i],
+                ],true);
+                $i++;
+            }
+        }
     }
-
+    public static  function dataProductResume($id_product,$idlang){
+        if(Product::getDefaultAttribute($id_product) !=0 ){
+            $product = new Product($id_product);
+            $infoDeclination = $product->getAttributesResume($idlang);
+            foreach ($infoDeclination as &$item){
+                $tabInfoDeclinaition = [
+                    'idProduct' => $item["id_product"],
+                    'idDeclination' => $item["id_product_attribute"],
+                    'nameDeclination' => $item["attribute_designation"],
+                    'hive' => ''
+                ];
+                $id_declin = $tabInfoDeclinaition['idDeclination'];
+                $sql = "SELECT name, id_supplier, position, id_product_attribute 
+                FROM ps_supplier 
+                NATURAL JOIN ps_hive_bdd 
+                WHERE id_product_attribute =".$id_declin."
+                ORDER BY position ASC";
+                $results = Db::getInstance()->ExecuteS($sql);
+                $hive = null;
+                foreach ($results as $ligne){
+                    $row = [
+                        'id_supplier' => $ligne['id_supplier'],
+                        'name_supplier' => $ligne['name'],
+                        'position' => $ligne['position']
+                    ];
+                    $hive[]= $row;
+                }
+                $tabInfoDeclinaition['hive'] = $hive;
+                $global[]=$tabInfoDeclinaition;
+            }
+            return $global;
+        }
+    }
 
 }
