@@ -137,12 +137,18 @@ class Hive extends Module
 
  public function hookActionProductDelete($params){
       $id_product = $params['id_product'];
-      Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product`= '.$id_product.'');
+      Db::getInstance()->Execute('
+        DELETE FROM `'._DB_PREFIX_.'hive_bdd`
+        WHERE `id_product`= '.$id_product.'
+      ');
     }
 
   public function hookActionProductAttributeDelete($params){
       $id_product_attribute = $params['id_product_attribute'];
-      Db::getInstance()->Execute('DELETE FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product_attribute`= '.$id_product_attribute.'');
+      Db::getInstance()->Execute('
+        DELETE FROM `'._DB_PREFIX_.'hive_bdd`
+        WHERE `id_product_attribute`= '.$id_product_attribute.'
+      ');
   }
 
   //public function hookActionProductOutOfStock($params) // Plus de stock  /themes/classic/templates/catalog/_partials/product-details.tpl
