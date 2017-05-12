@@ -61,7 +61,7 @@ class Hive extends Module
             // OR !$this->registerHook('actionProductAdd﻿'))
             OR !$this->registerHook('actionProductAttributeUpdate')
             OR !$this->registerHook('actionProductAdd')
-            OR !$this->registerHook('actionUpdateQuantity'))
+            OR !$this->registerHook('actionUpdateQuantity')
             OR !$this->registerHook('actionProductDelete')
             OR !$this->registerHook('actionProductAttributeDelete'))
             return false;
@@ -119,7 +119,7 @@ class Hive extends Module
         return true;
     }
     public function hookActionUpdateQuantity($params){
-        dump($params);   get
+        dump($params);
     }
     public function hookActionProductAdd($params){
 
