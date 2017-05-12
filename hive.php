@@ -60,7 +60,8 @@ class Hive extends Module
             // OR !$this->registerHook('actionUpdateproduct﻿'))
             // OR !$this->registerHook('actionProductAdd﻿'))
             OR !$this->registerHook('actionProductAttributeUpdate')
-            OR !$this->registerHook('actionUpdateQuantity')
+            OR !$this->registerHook('actionProductAdd')
+            OR !$this->registerHook('actionUpdateQuantity'))
             OR !$this->registerHook('actionProductDelete')
             OR !$this->registerHook('actionProductAttributeDelete'))
             return false;
@@ -118,57 +119,9 @@ class Hive extends Module
         return true;
     }
     public function hookActionUpdateQuantity($params){
-        var_dump($params);
+        dump($params);   get
     }
+    public function hookActionProductAdd($params){
 
-
-
-  //  public function hookActionProductCancel($params) // annulation d'un produit dans une commande /controllers/admin/AdminOrdersController.php
-  //  {
-        /*
-          params
-          array(
-            'order' => (object) Order object,
-            'id_order_detail' => (int) Order Detail ID
-);
-        */
-  //  }
-
-
- public function hookActionProductDelete($params){
-      $id_product = $params['id_product'];
-      Db::getInstance()->Execute('
-        DELETE FROM `'._DB_PREFIX_.'hive_bdd`
-        WHERE `id_product`= '.$id_product.'
-      ');
     }
-
-  public function hookActionProductAttributeDelete($params){
-      $id_product_attribute = $params['id_product_attribute'];
-      Db::getInstance()->Execute('
-        DELETE FROM `'._DB_PREFIX_.'hive_bdd`
-        WHERE `id_product_attribute`= '.$id_product_attribute.'
-      ');
-  }
-
-  //public function hookActionProductOutOfStock($params) // Plus de stock  /themes/classic/templates/catalog/_partials/product-details.tpl
-  //  {
-
-  //  }
-
-  //public function hookActionUpdateQuantity($params) // Quand le client achéte /classes/stock/StockAvailable.php
-  //  {
-
-  //  }
-
-  //public function hookActionUpdateproduct($params) // Quand MàJ du produit  /classes/Product.php
-  //  {
-
-  //  }
-
-  //public function hookActionProductAdd($params) // Quand ajout d'un produit  /controllers/admin/AdminProductsController.php
-  //  {
-
-  //  }
-
 }
