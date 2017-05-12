@@ -89,6 +89,7 @@ class HiveClasses extends ObjectModel{
            }
        }
     }
+    
     public static  function dataProductResume($id_product,$idlang){
         if(Product::getDefaultAttribute($id_product) !=0 ){
             $product = new Product($id_product);
@@ -125,6 +126,31 @@ class HiveClasses extends ObjectModel{
                 $global[]=$tabInfoDeclination;
             }
             return $global;
+        }
+    }
+    public static function productExistAndAdd($id_product,$id_lang){
+        $sql ="SELECT id_product FROM ps_hive_bdd WHERE id_product ='.$id_product.'";
+        $results = Db::getInstance()->getRow($sql);
+        if($results == null || $results == 0){
+            HiveClasses::addProdInstall($id_product,$id_lang);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    public static function productAttributeExistAndAdd($id_product_attribute,$id_lang){
+        $sql ="SELECT id_product_attribute FROM ps_hive_bdd WHERE id_product_attribute ='.$id_product_attribute.'";
+        $results = Db::getInstance()->getRow($sql);
+        if($results == null || $results == 0){
+            $req = "SELECT id_product 
+                    FROM ps_product_attribute 
+                    NATURAL JOIN ps_hive_bdd 
+                    WHERE id_product_attribute = '.$id_product_attribute.'";
+            $id_product = Db::getInstance()->getRow($req);
+            HiveClasses::addProdInstall($id_product,$id_lang);
+            return true;
+        }else{
+            return false;
         }
     }
 }

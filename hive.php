@@ -51,8 +51,9 @@ class Hive extends Module
             OR !$this->registerHook('actionProductUpdate')
             OR !$this->registerHook('actionProductSave')
             OR !$this->registerHook('displayAdminProductsExtra')
-            OR !$this->registerHook('actionAdminControllerSetMedia')
+            OR !$this->registerHook('actionAdminLoginControllerSetMedia')
             OR !$this->registerHook('actionProductUpdate')
+            OR !$this->registerHook('actionProductAdd')
             OR !$this->registerHook('actionProductAttributeUpdate')
             OR !$this->registerHook('actionUpdateQuantity'))
             return false;
@@ -81,10 +82,10 @@ class Hive extends Module
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
 
-    //public function actionAdminControllerSetMedia(){
-      //  $this->context->controller->addCSS($this->_path.'views/css/hiveStyles.css', 'all');
-      //  $this->context->controller->addJS($this->_path.'views/js/hiveJs.js');
-  //  }
+    public function actionAdminLoginControllerSetMedia(){
+        $this->context->controller->addCSS($this->_path.'views/css/hiveStyles.css', 'all');
+        $this->context->controller->addJS($this->_path.'views/js/hiveJs.js');
+    }
 
 
     public function uninstall()
@@ -98,18 +99,27 @@ class Hive extends Module
     protected $isSaved = false;
 
     public function hookActionProductUpdate($params){
-        if ($this->isSaved)
-            return null;
-        //HiveClasses::addProdInstall(1, $this->context->language->id);
+        //if ($this->isSaved)
+        //    return null;
+        $id_product = $params['id_product'];
+        $id_lang = $this->context->language->id;
+        HiveClasses::productExistAndAdd($id_product,$id_lang);
+        //if ($isInsert)
+        //    $this->isSaved = true;
+    }
 
-        $data = Tools::getAllValues();
-        $isInsert = 1;
-        if ($isInsert)
-            $this->isSaved = true;
+    protected $attributeIsSaved = false;
+    public function hookActionProductAttributeUpdate($params){
+            if ($this->isSaved)
+                return null;
+            $id_lang = $this->context->language->id;
+            $id_product_attribute = $params['id_product_attribute'];
+            $attributeisInsert = HiveClasses::productAttributeExistAndAdd($id_product_attribute, $id_lang);
+            if ($attributeisInsert)
+                $this->isSaved = true;
 
-        return true;
     }
     public function hookActionUpdateQuantity($params){
-        var_dump($params);
+        //var_dump($params);
     }
 }

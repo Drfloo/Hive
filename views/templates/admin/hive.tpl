@@ -5,14 +5,12 @@
     .panel-heading:hover{
         background-color: #fff;
     }
-    .table-hive tr{
-        cursor: move;
-    }
 </style>
 
 <div class="container">
     <hr />
-    {var_dump($test)}
+    {var_dump($paramProductAdd)}
+    <!--{var_dump($test)}-->
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -43,8 +41,10 @@
                                     <tr>
                                         <td><span name="compteur">
                                                {$showDetailProduct['position']}
+                                                <a class="move up">UP</a>
+                                                <a class="move down"> DOWN</a>
+                                                <input class="value_position" type="hidden" value="{$i++}">
                                             </span>
-                                            <input class="value_position" type="hidden" value="0">
                                         </td>
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
@@ -87,13 +87,21 @@
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
             });
-            $( ".table-hive tbody" ).sortable( {
-                update: function( event, ui ) {
-                    $(this).children().each(function(index) {
-                        $(this).find('td span').first().html(index + 1);
-                    });
-                }
+            $('.table-hive a.move').click(function() {
+                var row = $(this).closest('tr');
+                if ($(this).hasClass('up'))
+                    row.prev().before(row).('input.value_position').val(i++);
+                else
+                    row.next().after(row);
             });
+
+                /*  $( ".table-hive tbody" ).sortable( {
+                      update: function( event, ui ) {
+                          $(this).children().each(function(index) {
+                              $(this).find('td span').first().html(index + 1);
+                          });
+                      }
+                  });*/
         });
     </script>
 </div>
