@@ -77,8 +77,8 @@ class Hive extends Module
         $id_supplier = $product->id_supplier;
         $id_lang = $this->context->language->id;
        $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
-       dump(HiveClasses::getDefaultSupplier(4));
-       dump(HiveClasses::updateHiveStock(4,200));
+       //dump(HiveClasses::getDefaultSupplier(4));
+       //dump(HiveClasses::updateHiveStock(4,200));
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
         $supplier_price  = Supplier::getProductInformationsBySupplier(2,6);
 
@@ -151,6 +151,15 @@ class Hive extends Module
             'position' => 99,
             'quantity_supplier' => $params['quantity'],
         ],true);
+        /*
+          $id_product, $id_product_attribute, $delta_quantity, $id_shop -> Params update quantity
+	         * For a given id_product and id_product_attribute updates the quantity available
+	          *
+	           * @param int $id_product
+	            * @param int $id_product_attribute Optional
+	             * @param int $delta_quantity The delta quantity to update
+	              * @param int $id_shop Optional
+	               */
     }
     public function hookActionProductAdd($params){
 
@@ -171,4 +180,12 @@ class Hive extends Module
         WHERE `id_product_attribute`= '.$id_product_attribute.'
       ');
   }
+
+  // public function hookActionProductOutOfStock(){
+    ///controllers/front/ProductController.php
+  //}
+
+  //public function hookActionBeforeCartUpdateQty(){
+    ///classes/Cart.php
+  //}
 }
