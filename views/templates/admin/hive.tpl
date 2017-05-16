@@ -9,7 +9,8 @@
 
 <div class="container">
     <hr />
-    {var_dump($paramProductAdd)}
+    {var_dump($supplierPrice)}
+    {var_dump($id_supplier)}
     <!--{var_dump($test)}-->
     <h2>Produit : {$productname}</h2>
     <div class="row">
@@ -33,6 +34,7 @@
                                 <th>Quantité</th>
                                 <th>Activer / Desactiver</th>
                                 <th>Fournisseur par défaut</th>
+                                <th>Prix d'achat</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -68,6 +70,7 @@
                                             </label>
                                         </td>
                                         <td><input type="radio" name="checkbox"></td>
+                                        <td>prix</td>
                                     </tr>
                                 </form>
                                 {/foreach}
@@ -77,7 +80,7 @@
                 </div>
             </div>
             {/foreach}
-            <!--{var_dump($infoDeclination)}-->
+            {var_dump($infoDeclination)}
         </div>
     </div>
     <script>

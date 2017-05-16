@@ -40,6 +40,7 @@ class Hive extends Module
            `quantity_supplier` INT(11) NOT NULL,
            `supplier_default` BOOLEAN NOT NULL default 0,
            `supplier_enabled` BOOLEAN NOT NULL default 1,
+           `supplier_price` INT(11) NOT NULL default 0,
            PRIMARY KEY (`id`)
            )ENGINE InnoDB DEFAULT CHARSET=utf8;');
     }
@@ -71,8 +72,13 @@ class Hive extends Module
     }
     public function hookDisplayAdminProductsExtra($params) {
        $id_product = $params['id_product'];
+        $product = new Product($id_product);
+        $id_supplier = $product->id_supplier;
+        $id_lang = $this->context->language->id;
        $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
+        $supplier_price  = Supplier::getProductInformationsBySupplier(2,6);
+
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
@@ -80,8 +86,9 @@ class Hive extends Module
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
-                'test' => $dataResume )
-            );
+                'test' => $dataResume,
+                'supplierPrice' => $supplier_price
+            ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
 
@@ -106,13 +113,24 @@ class Hive extends Module
         //    return null;
         $id_product = $params['id_product'];
         $id_lang = $this->context->language->id;
-        HiveClasses::productExistAndAdd($id_product,$id_lang);
+        //HiveClasses::addProdInstall($id_product, $id_lang);
+        $product = new Product($id_product);
+        $attributes = $product->getAttributesResume($id_lang);
+        foreach ($attributes as $quantityAttributes){
+            Db::getInstance()->insert('hive_bdd', [
+                'id_product' => $id_product,
+                "id_product_attribute" => $quantityAttributes['id_product_attribute'],
+                'id_supplier' => 1,
+                'position' => 1,
+                'quantity_supplier' => $quantityAttributes['quantity']
+            ]);
+        }
+
         //if ($isInsert)
         //    $this->isSaved = true;
     }
 
-    protected $attributeIsSaved = false;
-    public function hookActionProductAttributeUpdate($params){
+    /*public function hookActionProductAttributeUpdate($params){
             if ($this->isSaved)
                 return null;
             $id_lang = $this->context->language->id;
@@ -121,7 +139,7 @@ class Hive extends Module
             if ($attributeisInsert)
                 $this->isSaved = true;
 
-    }
+    }*/
     public function hookActionUpdateQuantity($params){
         //var_dump($params);
     }
