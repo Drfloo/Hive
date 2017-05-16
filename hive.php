@@ -73,15 +73,8 @@ class Hive extends Module
     }
     public function hookDisplayAdminProductsExtra($params) {
        $id_product = $params['id_product'];
-        $product = new Product($id_product);
-        $id_supplier = $product->id_supplier;
-        $id_lang = $this->context->language->id;
        $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
-       //dump(HiveClasses::getDefaultSupplier(4));
-       //dump(HiveClasses::updateHiveStock(4,200));
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
-        $supplier_price  = Supplier::getProductInformationsBySupplier(2,6);
-
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
@@ -90,7 +83,6 @@ class Hive extends Module
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
                 'test' => $dataResume,
-                'supplierPrice' => $supplier_price
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }

@@ -119,6 +119,7 @@ class HiveClasses extends ObjectModel
                     'idProduct' => $item["id_product"],
                     'idDeclination' => $item["id_product_attribute"],
                     'nameDeclination' => $item["attribute_designation"],
+                    'price_supplier' => '',
                     'hive' => ''
                 ];
                 $id_declin = $tabInfoDeclination['idDeclination'];
@@ -129,6 +130,10 @@ class HiveClasses extends ObjectModel
                 WHERE id_product_attribute =" . $id_declin . "
                 ORDER BY position ASC";
                 $results = Db::getInstance()->executeS($sql);
+                $sql = 'SELECT product_supplier_price_te FROM ps_product_supplier
+                        WHERE id_product = '.$id_product.' AND id_product_attribute = '.$id_declin.' ';
+                $data = Db::getInstance()->executeS($sql);
+                $tabInfoDeclination['price_supplier'] = $data;
                 $hive = null;
                 foreach ($results as $ligne) {
                     $row = [
@@ -141,7 +146,6 @@ class HiveClasses extends ObjectModel
                     ];
                     $hive[] = $row;
                 }
-
                 $tabInfoDeclination['hive'] = $hive;
                 $global[] = $tabInfoDeclination;
             }
@@ -205,5 +209,10 @@ class HiveClasses extends ObjectModel
             self::dbUpdateAttributeQuantity($id_attribute, $defaultSupplier['id_supplier'], 0);
             self::changeDefaultSupplier($id_attribute, $defaultSupplier['id_supplier'], $defaultSupplier['position']);
             self::updateHiveStock($id_attribute, $diff);
+    }
+    public static function getPriceSupplierByProduct($id_product,$id_product_attribute){
+        $sql = 'SELECT id_supplier, product_supplier_price_te FROM ps_product_supplier WHERE id_product = '.$id_product.' AND id_product_attribute = '.$id_product_attribute.' ';
+        $data = Db::getInstance()->executeS($sql);
+        return $data;
     }
 }

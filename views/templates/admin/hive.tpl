@@ -10,8 +10,7 @@
 <div class="container">
     <hr />
     {var_dump($supplierPrice)}
-    {var_dump($id_supplier)}
-    <!--{var_dump($test)}-->
+    {var_dump($test)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -70,7 +69,7 @@
                                             </label>
                                         </td>
                                         <td><input type="radio" name="checkbox"></td>
-                                        <td>prix</td>
+                                        <td>{$showProduct['price_supplier']['product_supplier_price_te']}</td>
                                     </tr>
                                 </form>
                                 {/foreach}
@@ -90,13 +89,7 @@
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
             });
-            $('.table-hive a.move').click(function() {
-                var row = $(this).closest('tr');
-                if ($(this).hasClass('up'))
-                    row.prev().before(row).('input.value_position').val(i++);
-                else
-                    row.next().after(row);
-            });
+            
 
                 /*  $( ".table-hive tbody" ).sortable( {
                       update: function( event, ui ) {
