@@ -148,26 +148,62 @@ class HiveClasses extends ObjectModel
             return $global;
         }
     }
+    public function updateAttribute($id_product,$idlang,$quantity){
 
-    public static function productExistAndAdd($id_product, $id_lang)
-    {
-        $sql = "SELECT id_product FROM ps_hive_bdd WHERE id_product ='.$id_product.'";
-        $results = Db::getInstance()->getRow($sql);
-        if ($results == null || $results == 0) {
-            HiveClasses::addProdInstall($id_product, $id_lang);
-            return true;
-        } else {
-            return false;
+    }
+    public function compareQuantity($id_product_attribute,$quantity){
+        $stock = 0;
+        $i=0;
+        $attributes = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'_hive_bdd` WHERE `id_product_attribute` = '.$id_product_attribute.'ORDER BY `'._DB_PREFIX_.'_hive_bdd`.`position` ASC');
+        $lastSupplier = 0;
+        foreach ($attributes as $attribute){
+            if ($attribute['quantity_supplier'] != 0 && $attribute['supplier_enabled'] == true){
+
+            }
+            $stock =+ $attribute['quantity_supplier'];
+        }
+        if ($stock != $quantity){
+            $majstock = $quantity - $stock;
+
         }
     }
-
-    public static function productAttributeExistAndAdd($id_product_attribute, $id_lang)
-    {
-        $req = "SELECT id_product 
-                    FROM ps_product_attribute 
-                    WHERE id_product_attribute = '.$id_product_attribute.'";
-        $id_product = Db::getInstance()->getRow($req);
-        HiveClasses::addProdInstall($id_product, $id_lang);
-        return true;
+    public static function getDefaultSupplier($id_attribute){
+        $data = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product_attribute` = '.$id_attribute.' AND `supplier_default` = 1 ');
+        $supplierData = [
+            'id_supplier' => $data[0]['id_supplier'],
+            'quantity' => $data[0]['quantity_supplier'],
+            'position' => $data[0]['position']
+        ];
+        return $supplierData;
+    }
+    public static function dbUpdateAttributeQuantity($id_attribute,$id_supplier,$quantity){
+        Db::getInstance()->update('hive_bdd',[
+            'quantity_supplier'  => $quantity,
+        ],'`id_supplier` = '.$id_supplier.' AND `id_product_attribute` = '.$id_attribute);
+    }
+    public static function changeDefaultSupplier($id_attribute,$id_supplier,$positionSupplier){
+        Db::getInstance()->update('hive_bdd',[
+            'supplier_default'  => 0,
+        ],'`id_supplier` = '.$id_supplier.' AND `id_product_attribute` = '.$id_attribute);
+        Db::getInstance()->update('hive_bdd',[
+            'supplier_default'  => 1,
+        ],'`position` > '.($positionSupplier).' AND `id_product_attribute` = '.$id_attribute.' AND `supplier_enabled` = 1',1);
+    }
+    public static function dbSuppliersActive($id_attribute,$id_supplier){
+        $data = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product_attribute` = '.$id_attribute.' AND `id_supplier` = '.$id_supplier.'
+        ');
+        return (bool)($data[0]['supplier_default']);
+    }
+    public static function updateHiveStock($id_attribute,$diff){
+            $defaultSupplier = self::getDefaultSupplier($id_attribute);
+           if($diff > 0 || ($diff < 0 && abs($diff) < $defaultSupplier['quantity'])){
+               $newStock = $diff + $defaultSupplier['quantity'];
+               self::dbUpdateAttributeQuantity($id_attribute,$defaultSupplier['id_supplier'],$newStock);
+               return true;
+           }
+            $diff = $diff + $defaultSupplier['quantity'];
+            self::dbUpdateAttributeQuantity($id_attribute, $defaultSupplier['id_supplier'], 0);
+            self::changeDefaultSupplier($id_attribute, $defaultSupplier['id_supplier'], $defaultSupplier['position']);
+            self::updateHiveStock($id_attribute, $diff);
     }
 }

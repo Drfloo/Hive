@@ -1,5 +1,6 @@
 <?php
 
+
 if (!defined('_PS_VERSION_'))
     exit;
 
@@ -76,6 +77,8 @@ class Hive extends Module
         $id_supplier = $product->id_supplier;
         $id_lang = $this->context->language->id;
        $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
+       dump(HiveClasses::getDefaultSupplier(4));
+       dump(HiveClasses::updateHiveStock(4,200));
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
         $supplier_price  = Supplier::getProductInformationsBySupplier(2,6);
 
@@ -141,7 +144,13 @@ class Hive extends Module
 
     }*/
     public function hookActionUpdateQuantity($params){
-        //var_dump($params);
+        Db::getInstance()->insert('hive_bdd', [
+            'id_product' => $params['id_product'],
+            "id_product_attribute" => $params['id_product_attribute'],
+            'id_supplier' => 99,
+            'position' => 99,
+            'quantity_supplier' => $params['quantity'],
+        ],true);
     }
     public function hookActionProductAdd($params){
 
