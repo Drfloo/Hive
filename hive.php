@@ -121,11 +121,8 @@ class Hive extends Module
         $attributes = $product->getAttributesResume($id_lang);
         foreach ($attributes as $quantityAttributes){
             Db::getInstance()->insert('hive_bdd', [
-                'id_product' => $id_product,
-                "id_product_attribute" => $quantityAttributes['id_product_attribute'],
-                'id_supplier' => 1,
-                'position' => 1,
-                'quantity_supplier' => $quantityAttributes['quantity']
+                'id_product' => $id_product, "id_product_attribute" => $quantityAttributes['id_product_attribute'],
+                'id_supplier' => 1, 'position' => 1, 'quantity_supplier' => $quantityAttributes['quantity']
             ]);
         }
 
