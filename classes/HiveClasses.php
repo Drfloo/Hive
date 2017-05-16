@@ -130,10 +130,6 @@ class HiveClasses extends ObjectModel
                 WHERE id_product_attribute =" . $id_declin . "
                 ORDER BY position ASC";
                 $results = Db::getInstance()->executeS($sql);
-                $sql = 'SELECT product_supplier_price_te FROM ps_product_supplier
-                        WHERE id_product = '.$id_product.' AND id_product_attribute = '.$id_declin.' ';
-                $data = Db::getInstance()->executeS($sql);
-                $tabInfoDeclination['price_supplier'] = $data;
                 $hive = null;
                 foreach ($results as $ligne) {
                     $row = [
@@ -147,6 +143,18 @@ class HiveClasses extends ObjectModel
                     $hive[] = $row;
                 }
                 $tabInfoDeclination['hive'] = $hive;
+                $id_supplier = $row['id_supplier'];
+                $data =  Db::getInstance()->executeS('SELECT product_supplier_price_te FROM ps_product_supplier
+                        WHERE id_product = '.$id_product.' AND id_product_attribute = '.$id_declin.' ');
+                $price_supplier = null;
+                foreach ($data as $row){
+                    $product_price_supplier = array(
+                        'product_supplier_price_te' => $row['product_supplier_price_te']
+                    );
+                }
+                $price_supplier[] = $product_price_supplier;
+                $tabInfoDeclination['price_supplier'] = $price_supplier;
+
                 $global[] = $tabInfoDeclination;
             }
             return $global;

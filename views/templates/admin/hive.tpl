@@ -69,7 +69,9 @@
                                             </label>
                                         </td>
                                         <td><input type="radio" name="checkbox"></td>
-                                        <td>{$showProduct['price_supplier']['product_supplier_price_te']}</td>
+                                        <td>{foreach from=$showProduct['price_supplier'] item=showDetailProduct}
+                                                {$showDetailProduct['product_supplier_price_te']}
+                                        {/foreach}</td>
                                     </tr>
                                 </form>
                                 {/foreach}
