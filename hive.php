@@ -120,37 +120,20 @@ class Hive extends Module
             ]);
         }
 
-        //if ($isInsert)
-        //    $this->isSaved = true;
     }
 
-    /*public function hookActionProductAttributeUpdate($params){
-            if ($this->isSaved)
-                return null;
-            $id_lang = $this->context->language->id;
-            $id_product_attribute = $params['id_product_attribute'];
-            $attributeisInsert = HiveClasses::productAttributeExistAndAdd($id_product_attribute, $id_lang);
-            if ($attributeisInsert)
-                $this->isSaved = true;
+    public function hookActionProductAttributeUpdate($params){
 
-    }*/
+
+    }
     public function hookActionUpdateQuantity($params){
-        Db::getInstance()->insert('hive_bdd', [
-            'id_product' => $params['id_product'],
-            "id_product_attribute" => $params['id_product_attribute'],
-            'id_supplier' => 99,
-            'position' => 99,
-            'quantity_supplier' => $params['quantity'],
-        ],true);
-        /*
-          $id_product, $id_product_attribute, $delta_quantity, $id_shop -> Params update quantity
-	         * For a given id_product and id_product_attribute updates the quantity available
-	          *
-	           * @param int $id_product
-	            * @param int $id_product_attribute Optional
-	             * @param int $delta_quantity The delta quantity to update
-	              * @param int $id_shop Optional
-	               */
+        if($params['id_product_attribute'] != 0){
+            $quantityHive = HiveClasses::dbGetAttributeTotalQuantity($params['id_product_attribute']);
+            $diff = $params['quantity'] - $quantityHive;
+            if ($diff != 0) {
+                HiveClasses::updateHiveStock($params['id_product_attribute'],$diff);
+            }
+        }
     }
     public function hookActionProductAdd($params){
 

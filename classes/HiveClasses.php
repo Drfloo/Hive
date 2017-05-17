@@ -184,6 +184,14 @@ class HiveClasses extends ObjectModel
         ];
         return $supplierData;
     }
+    public static function dbGetAttributeTotalQuantity($id_attribute){
+        $data = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product_attribute` = '.$id_attribute.' ');
+        $quantity = 0;
+        foreach ($data as $item){
+            $quantity = $quantity + $item['quantity_supplier'];
+        }
+        return $quantity;
+    }
     public static function dbUpdateAttributeQuantity($id_attribute,$id_supplier,$quantity){
         Db::getInstance()->update('hive_bdd',[
             'quantity_supplier'  => $quantity,
