@@ -9,7 +9,7 @@
 
 <div class="container">
     <hr />
-    {var_dump($supplierPrice)}
+    {var_dump($biite)}
     {var_dump($test)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
@@ -68,9 +68,11 @@
                                             <input type="checkbox"{if $showDetailProduct['supplier_enabled']} checked{/if}>
                                             </label>
                                         </td>
-                                        <td><input type="radio" name="checkbox"></td>
-                                        <td>{foreach from=$showProduct['price_supplier'] item=showDetailProduct}
-                                                {$showDetailProduct['product_supplier_price_te']}
+                                        <td><input type="radio" name="checkbox
+                                                                        {$showDetailProduct['idDeclination']}
+                                                                         {$showDetailProduct['id_supplier']}"></td>
+                                        <td>{foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
+                                                {$showDetailProductPrice['product_supplier_price_te']}
                                         {/foreach}</td>
                                     </tr>
                                 </form>

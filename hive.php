@@ -75,6 +75,7 @@ class Hive extends Module
        $id_product = $params['id_product'];
        $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
+
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
@@ -83,6 +84,7 @@ class Hive extends Module
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
                 'test' => $dataResume,
+                'biite' => $data
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
