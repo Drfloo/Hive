@@ -24,7 +24,7 @@
             {foreach from=$test item=showProduct}
             <div class="panel panel-default">
                 <div class="panel-heading phead">
-                    <strong>{$showProduct["nameDeclination"]} id = {$showProduct["idDeclination"]}</strong>
+                    <strong>{$showProduct["nameDeclination"]}</strong>
                 </div>
                 <div class="panel-body pbody">
                     <div>
@@ -51,24 +51,24 @@
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
                                             <input type="hidden"
-                                                   name="idDeclination{$showDetailProduct['idDeclination']}"
-                                                   value="{$showDetailProduct["idDeclination"]}">
-                                            <input type="hidden" name="idSupplier{$showDetailProduct['idDeclination']}"
+                                                   name="idDeclination{$showProduct['idDeclination']}"
+                                                   value="{$showProduct["idDeclination"]}">
+                                            <input type="hidden" name="idSupplier{$showProduct['idDeclination']}"
                                             value="{$supp['id_supplier']}">
-                                            <input type="hidden" name="idProduct{$showDetailProduct['idDeclination']}"
-                                                   value="{$showDetailProduct["idProduct"]}">
+                                            <input type="hidden" name="idProduct{$showProduct['idDeclination']}"
+                                                   value="{$showProduct["idProduct"]}">
                                             <input type="hidden" name="nameDeclination"
-                                                   value="{$showDetailProduct["nameDeclination"]}">
+                                                   value="{$showProduct["nameDeclination"]}">
                                             <input name=
-                                                   "numberSupplierQuantity{$showDetailProduct['idDeclination']}
-                                                    {$showDetailProduct['id_supplier']}"
-                                                   type="number" value="{$showDetailProduct['quantity_supplier']}">
+                                                   "numberSupplierQuantity{$showProduct['idDeclination']}
+                                                    {$showProduct['id_supplier']}"
+                                                   type="number" value="{$showProduct['quantity_supplier']}">
                                         </td>
                                         <td>
                                             <label class="switch">
-                                            <input type="checkbox"{if $showDetailProduct['supplier_enabled']} checked{/if}>
+                                            <input type="checkbox"{if $showProduct['supplier_enabled']} checked{/if}>
                                             </label>
-                                            
+
                                         </td>
                                         <td>{foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
                                                 {$showDetailProductPrice['product_supplier_price_te']}
