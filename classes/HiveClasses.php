@@ -83,13 +83,26 @@ class HiveClasses extends ObjectModel
                 $tab = self::defaultQuantitySupplier($quantity, $numberSuppliers);
                 $i = 0;
                 foreach ($listSupplier as $supplier) {
-                    Db::getInstance()->insert('hive_bdd', [
-                        'id_product' => $id_product,
-                        'id_product_attribute' => $attribute['id_product_attribute'],
-                        'id_supplier' => $supplier['id'],
-                        'position' => ($i + 1),
-                        'quantity_supplier' => $tab[$i],
-                    ]);
+                    if($i == 0){
+                        Db::getInstance()->insert('hive_bdd', [
+                            'id_product' => $id_product,
+                            'id_product_attribute' => $attribute['id_product_attribute'],
+                            'id_supplier' => $supplier['id'],
+                            'position' => ($i + 1),
+                            'quantity_supplier' => $tab[$i],
+                            'supplier_default' => 1,
+                        ]);
+                    }
+                    else {
+                        Db::getInstance()->insert('hive_bdd', [
+                            'id_product' => $id_product,
+                            'id_product_attribute' => $attribute['id_product_attribute'],
+                            'id_supplier' => $supplier['id'],
+                            'position' => ($i + 1),
+                            'quantity_supplier' => $tab[$i],
+                        ]);
+                    }
+
                     $i++;
                 }
             }
