@@ -5,6 +5,9 @@
     .panel-heading:hover{
         background-color: #fff;
     }
+    .table-hive tbody  {
+        cursor : move;
+    }
 </style>
 
 <div class="container">
@@ -38,14 +41,13 @@
                             </thead>
                             <tbody>
                             {foreach from=$showProduct["hive"] item=showDetailProduct}
-                                <form type="post">
+                                <form>
                                     <tr>
                                         <td><span name="compteur">
                                                {$showDetailProduct['position']}
-                                                <a class="move up">UP</a>
-                                                <a class="move down"> DOWN</a>
-                                                <input class="value_position" type="hidden" value="{$i++}">
                                             </span>
+                                            <input class="value_position" type="hidden" value="{counter
+                                            name="{$showProduct["nameDeclination"]}"}">
                                         </td>
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
@@ -68,9 +70,7 @@
                                             <input type="checkbox"{if $showDetailProduct['supplier_enabled']} checked{/if}>
                                             </label>
                                         </td>
-                                        <td><input type="radio" name="checkbox
-                                                                        {$showDetailProduct['idDeclination']}
-                                                                         {$showDetailProduct['id_supplier']}"></td>
+                                        <td><input type="radio" name="checkbox{$showDetailProduct['idDeclination']}"></td>
                                         <td>{foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
                                                 {$showDetailProductPrice['product_supplier_price_te']}
                                         {/foreach}</td>
@@ -93,15 +93,16 @@
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
             });
-            
-
-                /*  $( ".table-hive tbody" ).sortable( {
-                      update: function( event, ui ) {
-                          $(this).children().each(function(index) {
-                              $(this).find('td span').first().html(index + 1);
-                          });
-                      }
-                  });*/
+            $( ".table-hive tbody" ).sortable( {
+               update: function( event, ui ) {
+               $(this).children('form tr').each(function(index) {
+                   $(this).find('td span').first().html(index + 1);
+                     });
+               $(this).children('form tr').each(function(i) {
+                   $(this).find('.value_position').val(i + 1);
+               });
+               }
+             });
         });
     </script>
 </div>
