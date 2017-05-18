@@ -55,23 +55,10 @@ class HiveClasses extends ObjectModel
         $tabResult = array_pad($tab, $numberSupplier, $quantityFloor);
         return $tabResult;
     }
-    /*public static function getPriceSupplierByProduct($id_product,$id_lang){
-        $product = new Product($id_product);
-        $id_supplier = $product->id_supplier;
-        $product_attribute = $product->getAttributesResume($id_lang);
-        foreach ($product_attribute as $price_product){
-            $supplier = Supplier::getProductInformationsBySupplier($id_supplier, $id_product);
-            $price_products = array(
-                'price_products' => $supplier
-            );
-        }
-            return $price_products;
-    }*/
 
     public static function addProdInstall($id_product, $id_lang)
     {
         $product = new Product($id_product);
-        $id_supplier = $product->id_supplier;
         $quantityProduct = Product::getQuantity($id_product);
         $listSupplier = Supplier::getLiteSuppliersList($id_lang, 'array');
         $numberSuppliers = self::numberOfSupplier($id_lang);
@@ -172,7 +159,6 @@ class HiveClasses extends ObjectModel
         }
         if ($stock != $quantity){
             $majstock = $quantity - $stock;
-
         }
     }
     public static function getDefaultSupplier($id_attribute){
@@ -225,4 +211,45 @@ class HiveClasses extends ObjectModel
             self::changeDefaultSupplier($id_attribute, $defaultSupplier['id_supplier'], $defaultSupplier['position']);
             self::updateHiveStock($id_attribute, $diff);
     }
+    public static function addProductBDD($id_product,$id_lang){
+        $i = 0;
+        $quantityProduct = Product::getQuantity($id_product);
+        $listSupplier = Supplier::getLiteSuppliersList($id_lang, 'array');
+        $numberSuppliers = self::numberOfSupplier($id_lang);
+
+        $tab = self::defaultQuantitySupplier($quantityProduct, $numberSuppliers);
+            foreach ($listSupplier as $supplier) {
+                Db::getInstance()->insert('hive_bdd', [
+                    'id_product' => $id_product,
+                    "id_product_attribute" => $id_product,
+                    'id_supplier' => $supplier['id'],
+                    'position' => ($i + 1),
+                    'quantity_supplier' => $tab[$i],
+                ], true);
+                $i++;
+            }
+            return true;
+    }
+    public static function addProdProductAttributeBDD($id_product,$id_lang){
+
+        if (Product::getDefaultAttribute($id_product) != 0) {
+            $attributes = $product->getAttributesResume($id_lang);
+            foreach ($attributes as $attribute) {
+                $quantity = $attribute['quantity'];
+                $tab = self::defaultQuantitySupplier($quantity, $numberSuppliers);
+                $i = 0;
+                foreach ($listSupplier as $supplier) {
+                    Db::getInstance()->insert('hive_bdd', [
+                        'id_product' => $id_product,
+                        'id_product_attribute' => $attribute['id_product_attribute'],
+                        'id_supplier' => $supplier['id'],
+                        'position' => ($i + 1),
+                        'quantity_supplier' => $tab[$i],
+                    ]);
+                    $i++;
+                }
+            }
+        }
+    }
+
 }

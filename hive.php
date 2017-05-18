@@ -60,6 +60,7 @@ class Hive extends Module
             OR !$this->registerHook('actionProductAdd')
             OR !$this->registerHook('actionUpdateQuantity')
             OR !$this->registerHook('actionProductDelete')
+            OR !$this->registerHook('actionObjectAddAfter')
             OR !$this->registerHook('actionProductAttributeDelete'))
             return false;
         return true;
@@ -84,7 +85,6 @@ class Hive extends Module
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
                 'test' => $dataResume,
-                'biite' => $data
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
@@ -106,26 +106,18 @@ class Hive extends Module
     protected $isSaved = false;
 
     public function hookActionProductUpdate($params){
-        //if ($this->isSaved)
-        //    return null;
-        $id_product = $params['id_product'];
-        $id_lang = $this->context->language->id;
-        //HiveClasses::addProdInstall($id_product, $id_lang);
-        $product = new Product($id_product);
-        $attributes = $product->getAttributesResume($id_lang);
-        foreach ($attributes as $quantityAttributes){
-            Db::getInstance()->insert('hive_bdd', [
-                'id_product' => $id_product, "id_product_attribute" => $quantityAttributes['id_product_attribute'],
-                'id_supplier' => 1, 'position' => 1, 'quantity_supplier' => $quantityAttributes['quantity']
-            ]);
-        }
 
     }
 
     public function hookActionProductAttributeUpdate($params){
-
+        if ($this->isSaved) return null;
+        $id_product = $params['id_product'];
+        $id_lang = $this->context->language->id;
+        $pass = HiveClasses::addProductBDD($id_product,$id_lang);
+        if ($pass) $this->isSaved = true;
 
     }
+
     public function hookActionUpdateQuantity($params){
         if($params['id_product_attribute'] != 0){
             $quantityHive = HiveClasses::dbGetAttributeTotalQuantity($params['id_product_attribute']);
@@ -134,9 +126,6 @@ class Hive extends Module
                 HiveClasses::updateHiveStock($params['id_product_attribute'],$diff);
             }
         }
-    }
-    public function hookActionProductAdd($params){
-
     }
 
      public function hookActionProductDelete($params){
@@ -162,4 +151,5 @@ class Hive extends Module
   //public function hookActionBeforeCartUpdateQty(){
     ///classes/Cart.php
   //}
+
 }
