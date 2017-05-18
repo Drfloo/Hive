@@ -62,7 +62,7 @@
                                             <input name=
                                                    "numberSupplierQuantity{$showProduct['idDeclination']}
                                                     {$showProduct['id_supplier']}"
-                                                   type="number" value="{$showProduct['quantity_supplier']}">
+                                                   type="number" value="{$showDetailProduct['quantity_supplier']}">
                                         </td>
                                         <td>
                                             <label class="switch">
