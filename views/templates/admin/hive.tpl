@@ -51,18 +51,16 @@
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
                                             <input type="hidden"
-                                                   name="idDeclination{$showProduct['idDeclination']}"
-                                                   value="{$showProduct["idDeclination"]}">
-                                            <input type="hidden" name="idSupplier{$showProduct['idDeclination']}"
-                                            value="{$supp['id_supplier']}">
-                                            <input type="hidden" name="idProduct{$showProduct['idDeclination']}"
+                                                   name="idProduct"
                                                    value="{$showProduct["idProduct"]}">
+                                            <input type="hidden" name="idSupplier"
+                                            value="{$showDetailProduct['id_supplier']}">
+                                            <input type="hidden" name="idProductAttribute"
+                                                   value="{$showProduct['idDeclination']}">
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$showProduct["nameDeclination"]}">
-                                            <input name=
-                                                   "numberSupplierQuantity{$showProduct['idDeclination']}
-                                                    {$showProduct['id_supplier']}"
-                                                   type="number" value="{$showDetailProduct['quantity_supplier']}">
+                                            <input name="numberSupplierQuantity" type="number" value="{$showDetailProduct['quantity_supplier']}">
+                                            <button class="quantitybutton" type="button">save</button>
                                         </td>
                                         <td>
                                             <label class="switch">
@@ -88,7 +86,7 @@
     <script>
         $(document).ready(function(){
             $('.pbody').hide();
-            $('.input-position').val(1)
+            $('.input-position').val(1);
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
             });
@@ -100,8 +98,66 @@
                $(this).children('form tr').each(function(i) {
                    $(this).find('.value_position').val(i + 1);
                });
+               $(this).children('form tr').each(function (i) {
+                   console.log($(this).find("input[class='value_position']").attr('value'));
+                   console.log($(this).find("input[name='idProductAttribute']").attr('value'));
+                   console.log($(this).find("input[name='idSupplier']").attr('value'));
+
+                   $.ajax (
+                       {
+                       type: "POST",
+                       url: "{$base_dir}/prestashop/modules/Hive/traitement.php",
+                       data: {
+                           id: $(this).find("input[name='idProductAttribute']").attr('value'),
+                           position: $(this).find("input[class='value_position']").attr('value'),
+                           id_supplier: $(this).find("input[name='idSupplier']").attr('value'),
+
+                       }
+                       }
+                       )
+               });
                }
              });
+            $(".switch").find('input').change(function (i) {
+                if ($(this).attr("checked")) {
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "{$base_dir}/prestashop/modules/Hive/activesupplier.php",
+                            data: {
+                                id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
+                                id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
+                                statut: 0,
+                            }
+                        })
+                }
+                else{
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "{$base_dir}/prestashop/modules/Hive/activesupplier.php",
+                            data: {
+                                id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
+                                id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
+                                statut: 1,
+                            }
+                        })
+                }
+            });
+            $('.quantitybutton').on('click',(function () {
+                $.ajax(
+                    {
+                        type: "POST",
+                        url: "{$base_dir}/prestashop/modules/Hive/quantitychange.php",
+                        data: {
+                            id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
+                            id_product: $(this).closest('tr').find("input[name='idProduct']").attr('value'),
+                            id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
+                            quantity: $(this).closest('tr').find("input[name='numberSupplierQuantity']").val(),
+                        }
+                    });
+            }))
         });
+
     </script>
 </div>
