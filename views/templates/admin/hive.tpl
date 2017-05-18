@@ -35,7 +35,6 @@
                                 <th>Fournisseur</th>
                                 <th>Quantité</th>
                                 <th>Activer / Desactiver</th>
-                                <th>Fournisseur par défaut</th>
                                 <th>Prix d'achat</th>
                             </tr>
                             </thead>
@@ -69,8 +68,8 @@
                                             <label class="switch">
                                             <input type="checkbox"{if $showDetailProduct['supplier_enabled']} checked{/if}>
                                             </label>
+                                            
                                         </td>
-                                        <td><input type="radio" name="checkbox{$showDetailProduct['idDeclination']}"></td>
                                         <td>{foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
                                                 {$showDetailProductPrice['product_supplier_price_te']}
                                         {/foreach}</td>
