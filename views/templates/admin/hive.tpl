@@ -10,10 +10,11 @@
     }
 
    .disableed {
-      transition: 2s;
-      background-color: #263238;
-      opacity: 0.5;
-      color: rgba(255,255,255,1);
+       transition: 2s;
+       background-color: #263238;
+       opacity: 0.5;
+       color: rgba(255, 255, 255, 1);
+   }
     .quantitybutton {
         background-color: #5CB85C;
         color : #fff;
@@ -44,6 +45,7 @@
                                 <th>Ordre</th>
                                 <th>Fournisseur</th>
                                 <th>Quantité</th>
+                                <th></th>
                                 <th>Activer / Desactiver</th>
                                 <th>Prix d'achat</th>
                             </tr>
