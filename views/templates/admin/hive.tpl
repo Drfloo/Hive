@@ -142,10 +142,11 @@
                });
                }
              });
-             
+
            $('input:checkbox').change(function(){
                 if($(this).is(":checked")) {
                     $(this).parents('tr').removeClass('disableed');
+                    $(this).parents('tr').find('#coucou').prop( "disabled", false );
                 }else{
                         //
                     $(this).parents('tr').addClass('disableed');
