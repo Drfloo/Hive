@@ -7,6 +7,10 @@
  */
 require_once(dirname(__FILE__).'../../../config/config.inc.php');
 require_once(dirname(__FILE__).'../../../init.php');
+if($_POST['default']){
+    HiveClasses::changeDefaultSupplier($_POST['id_product_attribute'],$_POST['id_supplier'],$_POST['position']);
+}
+
 Db::getInstance()->update('hive_bdd',[
     'supplier_enabled'  => $_POST['statut'],
 ],'`id_supplier` = '.$_POST['id_supplier'].' AND `id_product_attribute` = '.$_POST['id']);

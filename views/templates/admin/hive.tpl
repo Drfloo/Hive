@@ -53,6 +53,8 @@
                                         </td>
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
+                                            <input type="hidden" name="default"
+                                                   value="{$showProduct['supplier_default']}">
                                             <input type="hidden"
                                                    name="idProduct"
                                                    value="{$showProduct["idProduct"]}">
@@ -136,6 +138,8 @@
                                 id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
                                 id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
                                 statut: 0,
+                                position: $(this).closest('tr').find(".value_position").attr('value');
+                                default: $(this).closest('tr').find("input[name='supplier_default']").attr('value'),
                             }
                         })
                 }
@@ -148,6 +152,8 @@
                                 id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
                                 id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
                                 statut: 1,
+                                position: $(this).closest('tr').find(".value_position").attr('value');
+                                default: $(this).closest('tr').find("input[name='supplier_default']").attr('value'),
                             }
                         })
                 }
