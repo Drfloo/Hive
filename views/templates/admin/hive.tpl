@@ -11,7 +11,7 @@
     .table-hive tbody tr{
       border : solid 2px #BBCDD2;
       }
-    .table td{
+    .table th , td{
       text-align: center;
       }
 
