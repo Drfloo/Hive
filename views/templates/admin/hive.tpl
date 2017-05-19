@@ -108,6 +108,11 @@
         $(document).ready(function(){
             $('input:checkbox').parents('tr').addClass('disableed');
             $( "input:checked" ).parents('tr').removeClass('disableed');
+            /*
+             *
+             *   FONCTION POUR ACTIVER LES PANELS
+             *
+             */
             $('.pbody').hide();
             $('.input-position').val(1);
             $('.phead').click(function(){
