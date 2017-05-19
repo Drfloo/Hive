@@ -67,17 +67,16 @@ class Hive extends Module
     }
     public function initDB(){
         $id_lang = $this->context->language->id;
-        $products = Product::getProducts($id_lang,0,10000,'id_product','ASC');
+        $products = Product::getProducts($id_lang,0,999999999,'id_product','ASC');
         foreach ($products as $product){
             HiveClasses::addProdInstall((int)$product['id_product'],$id_lang);
         }
     }
     public function hookDisplayAdminProductsExtra($params) {
-       $id_product = $params['id_product'];
+        $id_product = $params['id_product'];
         $id_lang = $this->context->language->id;
-       $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
+        $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
-
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
                 'supplier' => $product['supplie'],
@@ -86,7 +85,7 @@ class Hive extends Module
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
                 'test' => $dataResume,
-                'id_lang' => $id_lang
+                'id_lang' => $id_lang,
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }
@@ -111,13 +110,13 @@ class Hive extends Module
 
     }
 
-    public function hookActionProductAttributeUpdate($params){
+    /*public function hookActionProductAttributeUpdate($params){
         if ($this->isSaved) return null;
         $id_product = $params['id_product'];
         $id_lang = $this->context->language->id;
         $pass = HiveClasses::addProductBDD($id_product,$id_lang);
         if ($pass) $this->isSaved = true;
-    }
+    }*/
     public function hookActionUpdateQuantity($params){
         if($params['id_product_attribute'] != 0){
             $quantityHive = HiveClasses::dbGetAttributeTotalQuantity($params['id_product_attribute']);

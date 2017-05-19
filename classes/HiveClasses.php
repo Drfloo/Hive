@@ -280,5 +280,45 @@ class HiveClasses extends ObjectModel
             HiveClasses::addProdInstall((int)$product['id_product'],$id_lang);
         }
     }
+    public static function majProduct($id_lang){
+        $numberProduct = Db::getInstance()->getValue('SELECT COUNT(DISTINCT `id_product`) FROM `ps_product`');
+        $numberProductHive = Db::getInstance()->getValue('SELECT COUNT(DISTINCT `id_product`) FROM `ps_hive_bdd` ');
+        if($numberProduct > $numberProductHive){
+            $limit = ($numberProduct - $numberProductHive);
+            $newProducts = Db::getInstance()->executeS('SELECT `id_product` FROM `ps_product` ORDER BY `ps_product`.`id_product` DESC LIMIT '.$limit.' ');
+            foreach ($newProducts as $product){
+                HiveClasses::addProdInstall((int)$product['id_product'],$id_lang);
+            }
+        }
+    }
+    public static function majSupplier($id_lang){
+        $listSupplier = Db::getInstance()->executeS('SELECT * FROM `ps_supplier` ORDER BY `ps_supplier`.`id_supplier` ASC ');
+        $numberSupplier = self::numberOfSupplier($id_lang);
+        $listProducts = Product::getProducts($id_lang,0,999999999999,'id_product','ASC');
+        $numberRow = Db::getInstance()->executeS('SELECT COUNT(DISTINCT `id_supplier`) FROM `ps_hive_bdd` ');
+
+        if($numberSupplier > $numberRow){
+            $listIdHive = Db::getInstance()->executeS('SELECT `id_product`,`id_product_attribute` FROM `ps_hive_bdd` GROUP BY `id_product`,`id_product_attribute` ');
+            $i=$numberRow;
+            while ($i != $numberSupplier){
+                $supplier = $listSupplier[$i];
+                self::dbaddNewSupplier($supplier,$listIdHive,$i + 1);
+                $i++;
+            }
+
+        }
+    }
+    public static function dbaddNewSupplier($supplier,$listProduct,$number){
+        foreach ($listProduct as $product){
+            Db::getInstance()->insert('hive_bdd', [
+                'id_product' => $product['id_product'],
+                "id_product_attribute" => $product['id_product_attribute'],
+                'id_supplier' => $supplier['id_supplier'],
+                'position' => $number,
+                'quantity_supplier' => 0,
+            ], true);;
+        }
+
+    }
 
 }
