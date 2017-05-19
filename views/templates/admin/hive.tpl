@@ -121,7 +121,6 @@
                            id: $(this).find("input[name='idProductAttribute']").attr('value'),
                            position: $(this).find("input[class='value_position']").attr('value'),
                            id_supplier: $(this).find("input[name='idSupplier']").attr('value'),
-
                        }
                        }
                        )
@@ -129,6 +128,7 @@
                }
              });
             $(".switch").find('input').change(function (i) {
+                console.log($(this).find("input[name='idSupplier']").attr('value'));
                 if ($(this).attr("checked")) {
                     $.ajax(
                         {
@@ -138,8 +138,8 @@
                                 id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
                                 id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
                                 statut: 0,
-                                position: $(this).closest('tr').find(".value_position").attr('value');
-                                default: $(this).closest('tr').find("input[name='supplier_default']").attr('value'),
+                                position: $(this).closest('tr').find(".value_position").attr('value'),
+                                default: $(this).closest('tr').find("input[name='default']").attr('value'),
                             }
                         })
                 }
@@ -152,8 +152,8 @@
                                 id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
                                 id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
                                 statut: 1,
-                                position: $(this).closest('tr').find(".value_position").attr('value');
-                                default: $(this).closest('tr').find("input[name='supplier_default']").attr('value'),
+                                position: $(this).closest('tr').find(".value_position").attr('value'),
+                                default: $(this).closest('tr').find("input[name='default']").attr('value'),
                             }
                         })
                 }
