@@ -8,14 +8,19 @@
     .table-hive tbody  {
         cursor : move;
     }
-    .quantitybutton {
-        background-color: #77c15d;
-        color : #fff;
+
+   .disableed {
+      transition: 2s;
+      background-color: #263238;
+      opacity: 0.5;
+      color: rgba(255,255,255,1);
     }
 </style>
 
 <div class="container">
     <hr />
+    {var_dump($biite)}
+    {var_dump($test)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -30,13 +35,12 @@
                 </div>
                 <div class="panel-body pbody">
                     <div>
-                        <table class="table table-striped table-hive">
+                        <table class="table table-bordered table-hive">
                             <thead>
                             <tr>
                                 <th>Ordre</th>
                                 <th>Fournisseur</th>
                                 <th>Quantité</th>
-                                <th></th>
                                 <th>Activer / Desactiver</th>
                                 <th>Prix d'achat</th>
                             </tr>
@@ -53,8 +57,6 @@
                                         </td>
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
-                                            <input type="hidden" name="default"
-                                                   value="{$showProduct['supplier_default']}">
                                             <input type="hidden"
                                                    name="idProduct"
                                                    value="{$showProduct["idProduct"]}">
@@ -64,14 +66,15 @@
                                                    value="{$showProduct['idDeclination']}">
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$showProduct["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity" type="number" class="form-control"
+                                            <input name="numberSupplierQuantity" type="number"
                                                    value="{$showDetailProduct['quantity_supplier']}">
+                                            <button class="quantitybutton" type="button">save</button>
                                         </td>
-                                        <td><button class="btn quantitybutton" type="button">save</button></td>
                                         <td>
                                             <label class="switch">
                                             <input type="checkbox"{if $showDetailProduct['supplier_enabled'] == 1} checked{/if}>
                                             </label>
+
                                         </td>
                                         <td>{foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
                                                 {$showDetailProductPrice['product_supplier_price_te']}
@@ -85,6 +88,7 @@
                 </div>
             </div>
             {/foreach}
+            {var_dump($infoDeclination)}
         </div>
     </div>
     <script>
@@ -93,12 +97,6 @@
             $('.input-position').val(1);
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
-            });
-            $('input[name=numberSupplierQuantity]').change(function(){
-                $(this).next('button').css("background-color", "#db841a");
-            });
-            $('input[name=numberSupplierQuantity]').keyup(function(){
-                $(this).next('button').css("background-color", "#db841a");
             });
             $( ".table-hive tbody" ).sortable( {
                update: function( event, ui ) {
@@ -127,6 +125,16 @@
                });
                }
              });
+             
+            $('input:checkbox').change(function(){
+                if($(this).is(":checked")) {
+                    $(this).parents('tr').removeClass('disableed');
+                }else{
+                        //
+                    $(this).parents('tr').addClass('disableed');
+                }
+            });
+
             $(".switch").find('input').change(function (i) {
                 console.log($(this).find("input[name='idSupplier']").attr('value'));
                 if ($(this).attr("checked")) {
@@ -159,7 +167,6 @@
                 }
             });
             $('.quantitybutton').on('click',(function () {
-                $(this).css("background-color", "#77c15d");
                 $.ajax(
                     {
                         type: "POST",
