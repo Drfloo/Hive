@@ -113,12 +113,22 @@
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
             });
+            /*
+             *
+             *   FONCTION POUR LES BOUTONS SAVE QUANTITÉ FOURNISSEURS
+             *
+             */
             $('input[name=numberSupplierQuantity]').change(function(){
                 $(this).parents().next('td').find('.btn').css("background-color", "#db841a");
             });
             $('input[name=numberSupplierQuantity]').keyup(function(){
                 $(this).parents().next('td').find('.btn').css("background-color", "#db841a");
             });
+            /*
+             *
+             *   FONCTION POUR LES POSITIONS DES FOURNISSEURS
+             *
+             */
             $( ".table-hive tbody" ).sortable( {
                update: function( event, ui ) {
                $(this).children('form tr').each(function(index) {
@@ -127,6 +137,28 @@
                $(this).children('form tr').each(function(i) {
                    $(this).find('.value_position').val(i + 1);
                });
+                   /*
+                    *
+                    *   FONCTION DISABLE LES LIGNES DES TABLEAUX
+                    *
+                    */
+                   $('input:checkbox').change(function(){
+                       if($(this).is(":checked")) {
+                           $(this).parents('tr').removeClass('disableed');
+                           $(this).parents('tr').find('#coucou').prop( "disabled", false );
+                           $(this).parents('tr').find('#soupe').prop( "disabled", false ).css('background-color', '#5CB85C');
+                       }else{
+                           //
+                           $(this).parents('tr').addClass('disableed');
+                           $(this).parents('tr').find('#coucou').prop( "disabled", true ).css('background-color', 'white');
+                           $(this).parents('tr').find('#soupe').prop( "disabled", true ).css('background-color', '#CCCCCC');
+                       }
+                   });
+                   /*
+                    *
+                    *   FONCTION AJAX UPDATE DE LA BDD
+                    *
+                    */
                $(this).children('form tr').each(function (i) {
                    console.log($(this).find("input[class='value_position']").attr('value'));
                    console.log($(this).find("input[name='idProductAttribute']").attr('value'));
@@ -146,19 +178,6 @@
                });
                }
              });
-
-           $('input:checkbox').change(function(){
-                if($(this).is(":checked")) {
-                    $(this).parents('tr').removeClass('disableed');
-                    $(this).parents('tr').find('#coucou').prop( "disabled", false );
-                    $(this).parents('tr').find('#soupe').prop( "disabled", false ).css('background-color', '#5CB85C');
-                }else{
-                        //
-                    $(this).parents('tr').addClass('disableed');
-                    $(this).parents('tr').find('#coucou').prop( "disabled", true ).css('background-color', 'white');
-                    $(this).parents('tr').find('#soupe').prop( "disabled", true ).css('background-color', '#CCCCCC');
-                }
-            });
 
             $(".switch").find('input').change(function (i) {
                 console.log($(this).find("input[name='idSupplier']").attr('value'));

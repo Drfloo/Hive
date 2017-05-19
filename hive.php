@@ -12,7 +12,7 @@ class Hive extends Module
     {
         $this->name = 'Hive';
         $this->tab = 'front_office_features';
-        $this->version = '0.5.1';
+        $this->version = '0.7.1';
         $this->author = 'Damien Barber, Florent Bruziaux, Maxime Hardy';
         $this->displayName = 'Hive';
         $this->description = 'Description du module [A FAIRE]';
