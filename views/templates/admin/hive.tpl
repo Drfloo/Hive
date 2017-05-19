@@ -15,10 +15,13 @@
       opacity: 0.5;
       color: rgba(255,255,255,1);
       cursor: not-allowed;
-    }
+      }
     .quantitybutton {
         background-color: #5CB85C;
         color : #fff;
+    }
+    input[type=checkbox]{
+      border-radius: 50%;
     }
 </style>
 
@@ -77,11 +80,11 @@
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$showProduct["nameDeclination"]}">
                                         </td>
-                                        <td><button class="btn quantitybutton" type="button">save</button>
+                                        <td><button id="soupe" class="btn quantitybutton" type="button">save</button>
                                         </td>
                                         <td>
                                             <label class="switch">
-                                            <input
+                                            <input id="checkage"
                                                    type="checkbox"{if $showDetailProduct['supplier_enabled'] == 1} checked{/if}>
                                             </label>
 
@@ -104,6 +107,7 @@
     <script>
         $(document).ready(function(){
             $('input:checkbox').parents('tr').addClass('disableed');
+            $( "input:checked" ).parents('tr').removeClass('disableed');
             $('.pbody').hide();
             $('.input-position').val(1);
             $('.phead').click(function(){
@@ -147,10 +151,12 @@
                 if($(this).is(":checked")) {
                     $(this).parents('tr').removeClass('disableed');
                     $(this).parents('tr').find('#coucou').prop( "disabled", false );
+                    $(this).parents('tr').find('#soupe').prop( "disabled", false ).css('background-color', '#5CB85C');
                 }else{
                         //
                     $(this).parents('tr').addClass('disableed');
                     $(this).parents('tr').find('#coucou').prop( "disabled", true ).css('background-color', 'white');
+                    $(this).parents('tr').find('#soupe').prop( "disabled", true ).css('background-color', '#CCCCCC');
                 }
             });
 
