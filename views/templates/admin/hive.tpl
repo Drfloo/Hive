@@ -81,7 +81,7 @@
                                             <input id="coucou" name="numberSupplierQuantity" type="number" class="form-control"
                                                    value="{$showDetailProduct['quantity_supplier']}">
                                             <input type="hidden" name="default"
-                                                   value="{$showProduct['supplier_default']}">
+                                                   value="{$showDetailProduct['supplier_default']}">
                                             <input type="hidden"
                                                    name="idProduct"
                                                    value="{$showProduct["idProduct"]}">
@@ -187,22 +187,8 @@
             });
 
             $(".switch").find('input').change(function (i) {
-                console.log($(this).find("input[name='idSupplier']").attr('value'));
-                if ($(this).attr("checked")) {
-                    $.ajax(
-                        {
-                            type: "POST",
-                            url: "{$base_dir}/prestashop/modules/Hive/activesupplier.php",
-                            data: {
-                                id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
-                                id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
-                                statut: 0,
-                                position: $(this).closest('tr').find(".value_position").attr('value'),
-                                default: $(this).closest('tr').find("input[name='default']").attr('value'),
-                            }
-                        })
-                }
-                else{
+                console.log($(this).is(':checked'));
+                if ($(this).is(':checked')) {
                     $.ajax(
                         {
                             type: "POST",
@@ -212,7 +198,22 @@
                                 id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
                                 statut: 1,
                                 position: $(this).closest('tr').find(".value_position").attr('value'),
-                                default: $(this).closest('tr').find("input[name='default']").attr('value'),
+                                id_product: $(this).closest('tr').find("input[name='idProduct']").attr('value'),
+                            }
+                        })
+                }
+                else{
+                    $(this).closest('tr').find("input[name='numberSupplierQuantity']").val(0);
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: "{$base_dir}/prestashop/modules/Hive/activesupplier.php",
+                            data: {
+                                id: $(this).closest('tr').find("input[name='idProductAttribute']").attr('value'),
+                                id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
+                                statut: 0,
+                                position: $(this).closest('tr').find(".value_position").attr('value'),
+                                id_product: $(this).closest('tr').find("input[name='idProduct']").attr('value'),
                             }
                         })
                 }
@@ -228,6 +229,8 @@
                             id_product: $(this).closest('tr').find("input[name='idProduct']").attr('value'),
                             id_supplier: $(this).closest('tr').find("input[name='idSupplier']").attr('value'),
                             quantity: $(this).closest('tr').find("input[name='numberSupplierQuantity']").val(),
+                            position: $(this).closest('tr').find(".value_position").attr('value'),
+
                         }
                     });
             }))
