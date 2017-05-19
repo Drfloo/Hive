@@ -199,6 +199,15 @@ class HiveClasses extends ObjectModel
             'quantity_supplier'  => $quantity,
         ],'`id_supplier` = '.$id_supplier.' AND `id_product_attribute` = '.$id_attribute);
     }
+    public static function dbSwitchDefaultSupplier($id_attribute,$new_supplier,$old_supplier){
+        Db::getInstance()->update('hive_bdd',[
+            'supplier_default'  => 1,
+        ],'`id_supplier` = '.$new_supplier.' AND `id_product_attribute` = '.$id_attribute);
+        Db::getInstance()->update('hive_bdd',[
+            'supplier_default'  => 0,
+        ],'`id_supplier` = '.$old_supplier.' AND `id_product_attribute` = '.$id_attribute);
+
+    }
     public static function changeDefaultSupplier($id_attribute,$id_supplier,$positionSupplier){
         Db::getInstance()->update('hive_bdd',[
             'supplier_default'  => 0,
