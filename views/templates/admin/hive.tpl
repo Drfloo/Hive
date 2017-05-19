@@ -14,6 +14,9 @@
       background-color: #263238;
       opacity: 0.5;
       color: rgba(255,255,255,1);
+    .quantitybutton {
+        background-color: #5CB85C;
+        color : #fff;
     }
 </style>
 
@@ -57,6 +60,10 @@
                                         </td>
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
+                                            <input name="numberSupplierQuantity" type="number" class="form-control"
+                                                   value="{$showDetailProduct['quantity_supplier']}">
+                                            <input type="hidden" name="default"
+                                                   value="{$showProduct['supplier_default']}">
                                             <input type="hidden"
                                                    name="idProduct"
                                                    value="{$showProduct["idProduct"]}">
@@ -66,13 +73,13 @@
                                                    value="{$showProduct['idDeclination']}">
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$showProduct["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity" type="number"
-                                                   value="{$showDetailProduct['quantity_supplier']}">
-                                            <button class="quantitybutton" type="button">save</button>
+                                        </td>
+                                        <td><button class="btn quantitybutton" type="button">save</button>
                                         </td>
                                         <td>
                                             <label class="switch">
-                                            <input type="checkbox"{if $showDetailProduct['supplier_enabled'] == 1} checked{/if}>
+                                            <input
+                                                   type="checkbox"{if $showDetailProduct['supplier_enabled'] == 1} checked{/if}>
                                             </label>
 
                                         </td>
@@ -97,6 +104,12 @@
             $('.input-position').val(1);
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
+            });
+            $('input[name=numberSupplierQuantity]').change(function(){
+                $(this).parents().next('td').find('.btn').css("background-color", "#db841a");
+            });
+            $('input[name=numberSupplierQuantity]').keyup(function(){
+                $(this).parents().next('td').find('.btn').css("background-color", "#db841a");
             });
             $( ".table-hive tbody" ).sortable( {
                update: function( event, ui ) {
@@ -167,6 +180,7 @@
                 }
             });
             $('.quantitybutton').on('click',(function () {
+                $(this).css("background-color", "#5CB85C");
                 $.ajax(
                     {
                         type: "POST",
