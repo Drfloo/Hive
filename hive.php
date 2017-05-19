@@ -74,6 +74,7 @@ class Hive extends Module
     }
     public function hookDisplayAdminProductsExtra($params) {
        $id_product = $params['id_product'];
+        $id_lang = $this->context->language->id;
        $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
 
@@ -85,6 +86,7 @@ class Hive extends Module
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
                 'test' => $dataResume,
+                'id_lang' => $id_lang
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
     }

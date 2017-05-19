@@ -22,6 +22,7 @@
       color: rgba(255,255,255,1);
       cursor: not-allowed;
       }
+
     .quantitybutton {
         background-color: #5CB85C;
         color : #fff;
@@ -33,6 +34,7 @@
 
 <div class="container">
     <hr />
+    {var_dump($id_lang)}
     {var_dump($biite)}
     {var_dump($test)}
     <h2>Produit : {$productname}</h2>
@@ -42,6 +44,7 @@
                 <i class="material-icons">help</i>
                 <p>Choissiez parmi la liste des déclinaisons blablabla</p>
             </div>
+            <button class="btn btn-default refresh">Actualiser les fournisseurs et les produits</button>
             {foreach from=$test item=showProduct}
             <div class="panel panel-default">
                 <div class="panel-heading phead">
@@ -79,6 +82,9 @@
                                             <input type="hidden"
                                                    name="idProduct"
                                                    value="{$showProduct["idProduct"]}">
+                                            <input type="hidden"
+                                                   name="idLang"
+                                                   value="{$id_lang}">
                                             <input type="hidden" name="idSupplier"
                                             value="{$showDetailProduct['id_supplier']}">
                                             <input type="hidden" name="idProductAttribute"
@@ -90,7 +96,7 @@
                                         </td>
                                         <td>
                                             <label class="switch">
-                                            <input id="checkage"
+                                            <input id="checkage" class="ckeckbox"
                                                    type="checkbox"{if $showDetailProduct['supplier_enabled'] == 1} checked{/if}>
                                             </label>
 
@@ -221,6 +227,17 @@
                             quantity: $(this).closest('tr').find("input[name='numberSupplierQuantity']").val(),
                         }
                     });
+            }))
+            $('.refresh').on('click',(function () {
+                console.log($(this).closest('tr').find("input[name='idLang']").attr('value'),)
+                $.ajax(
+                        {
+                            type: "POST",
+                            url: "{$base_dir}/prestashop/modules/Hive/refreshModule.php",
+                            data: {
+                                id_lang: {$id_lang},
+                            }
+                        });
             }))
         });
 

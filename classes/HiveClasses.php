@@ -265,4 +265,11 @@ class HiveClasses extends ObjectModel
         }
     }
 
+    public static function initDBRefresh($id_lang){
+        $products = Product::getProducts($id_lang,0,10000,'id_product','ASC');
+        foreach ($products as $product){
+            HiveClasses::addProdInstall((int)$product['id_product'],$id_lang);
+        }
+    }
+
 }
