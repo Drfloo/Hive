@@ -9,12 +9,13 @@
         cursor : move;
     }
 
-   .disableed {
-       transition: 2s;
-       background-color: #263238;
-       opacity: 0.5;
-       color: rgba(255, 255, 255, 1);
-   }
+  .disableed {
+      transition: 2s;
+      background-color: #eee;
+      opacity: 0.5;
+      color: rgba(255,255,255,1);
+      cursor: not-allowed;
+    }
     .quantitybutton {
         background-color: #5CB85C;
         color : #fff;
@@ -62,7 +63,7 @@
                                         </td>
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
-                                            <input name="numberSupplierQuantity" type="number" class="form-control"
+                                            <input id="coucou" name="numberSupplierQuantity" type="number" class="form-control"
                                                    value="{$showDetailProduct['quantity_supplier']}">
                                             <input type="hidden" name="default"
                                                    value="{$showProduct['supplier_default']}">
@@ -102,6 +103,7 @@
     </div>
     <script>
         $(document).ready(function(){
+            $('input:checkbox').parents('tr').addClass('disableed');
             $('.pbody').hide();
             $('.input-position').val(1);
             $('.phead').click(function(){
@@ -141,12 +143,13 @@
                }
              });
              
-            $('input:checkbox').change(function(){
+           $('input:checkbox').change(function(){
                 if($(this).is(":checked")) {
                     $(this).parents('tr').removeClass('disableed');
                 }else{
                         //
                     $(this).parents('tr').addClass('disableed');
+                    $(this).parents('tr').find('#coucou').prop( "disabled", true ).css('background-color', 'white');
                 }
             });
 
