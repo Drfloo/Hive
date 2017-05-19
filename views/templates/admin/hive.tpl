@@ -8,12 +8,14 @@
     .table-hive tbody  {
         cursor : move;
     }
+    .quantitybutton {
+        background-color: #77c15d;
+        color : #fff;
+    }
 </style>
 
 <div class="container">
     <hr />
-    {var_dump($biite)}
-    {var_dump($test)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -34,6 +36,7 @@
                                 <th>Ordre</th>
                                 <th>Fournisseur</th>
                                 <th>Quantité</th>
+                                <th></th>
                                 <th>Activer / Desactiver</th>
                                 <th>Prix d'achat</th>
                             </tr>
@@ -59,15 +62,14 @@
                                                    value="{$showProduct['idDeclination']}">
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$showProduct["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity" type="number"
+                                            <input name="numberSupplierQuantity" type="number" class="form-control"
                                                    value="{$showDetailProduct['quantity_supplier']}">
-                                            <button class="quantitybutton" type="button">save</button>
                                         </td>
+                                        <td><button class="btn quantitybutton" type="button">save</button></td>
                                         <td>
                                             <label class="switch">
                                             <input type="checkbox"{if $showDetailProduct['supplier_enabled'] == 1} checked{/if}>
                                             </label>
-
                                         </td>
                                         <td>{foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
                                                 {$showDetailProductPrice['product_supplier_price_te']}
@@ -81,7 +83,6 @@
                 </div>
             </div>
             {/foreach}
-            {var_dump($infoDeclination)}
         </div>
     </div>
     <script>
@@ -90,6 +91,12 @@
             $('.input-position').val(1);
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
+            });
+            $('input[name=numberSupplierQuantity]').change(function(){
+                $(this).next('button').css("background-color", "#db841a");
+            });
+            $('input[name=numberSupplierQuantity]').keyup(function(){
+                $(this).next('button').css("background-color", "#db841a");
             });
             $( ".table-hive tbody" ).sortable( {
                update: function( event, ui ) {
@@ -146,6 +153,7 @@
                 }
             });
             $('.quantitybutton').on('click',(function () {
+                $(this).css("background-color", "#77c15d");
                 $.ajax(
                     {
                         type: "POST",
