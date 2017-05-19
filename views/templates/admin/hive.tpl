@@ -30,6 +30,9 @@
     input[type=checkbox]{
       border-radius: 50%;
     }
+    .refresh{
+        margin-bottom: 20px;
+    }
 </style>
 
 <div class="container">
@@ -44,7 +47,7 @@
                 <i class="material-icons">help</i>
                 <p>Choissiez parmi la liste des déclinaisons blablabla</p>
             </div>
-            <button class="btn btn-default refresh">Actualiser les fournisseurs et les produits</button>
+            <button class="btn btn-default refresh">Actualiser les fournisseurs</button>
             {foreach from=$test item=showProduct}
             <div class="panel panel-default">
                 <div class="panel-heading phead">
