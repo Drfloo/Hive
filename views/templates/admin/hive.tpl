@@ -45,8 +45,8 @@
                                         <td><span name="compteur">
                                                {$showDetailProduct['position']}
                                             </span>
-                                            <input class="value_position" type="hidden" value="{counter
-                                            name="{$showProduct["nameDeclination"]}"}">
+                                            <input class="value_position" type="hidden"
+                                                   value="{counter name="{$showProduct["nameDeclination"]}"}">
                                         </td>
                                         <td> {$showDetailProduct['name_supplier']}</td>
                                         <td>
@@ -59,12 +59,13 @@
                                                    value="{$showProduct['idDeclination']}">
                                             <input type="hidden" name="nameDeclination"
                                                    value="{$showProduct["nameDeclination"]}">
-                                            <input name="numberSupplierQuantity" type="number" value="{$showDetailProduct['quantity_supplier']}">
+                                            <input name="numberSupplierQuantity" type="number"
+                                                   value="{$showDetailProduct['quantity_supplier']}">
                                             <button class="quantitybutton" type="button">save</button>
                                         </td>
                                         <td>
                                             <label class="switch">
-                                            <input type="checkbox"{if $showDetailProduct['supplier_enabled']} checked{/if}>
+                                            <input type="checkbox"{if $showDetailProduct['supplier_enabled'] == 1} checked{/if}>
                                             </label>
 
                                         </td>

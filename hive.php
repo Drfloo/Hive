@@ -115,9 +115,7 @@ class Hive extends Module
         $id_lang = $this->context->language->id;
         $pass = HiveClasses::addProductBDD($id_product,$id_lang);
         if ($pass) $this->isSaved = true;
-
     }
-
     public function hookActionUpdateQuantity($params){
         if($params['id_product_attribute'] != 0){
             $quantityHive = HiveClasses::dbGetAttributeTotalQuantity($params['id_product_attribute']);
