@@ -35,6 +35,13 @@
     .refresh{
         margin-bottom: 20px;
     }
+    .IcoAlert i {
+        font-size: 2em;
+        color: #25B9D7;
+    }
+    .IcoAlert i:hover{
+        cursor : pointer;
+    }
 </style>
 
 <div class="container">
@@ -74,7 +81,7 @@
                                 <form>
                                     <tr>
                                         <td><span name="compteur">
-                                               {$showDetailProduct['position']}
+                                               <p>{$showDetailProduct['position']}</p>
                                             </span>
                                             <input class="value_position" type="hidden"
                                                    value="{counter name="{$showProduct["nameDeclination"]}"}">
@@ -107,9 +114,18 @@
                                             </label>
 
                                         </td>
-                                        <td>{foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
-                                                {$showDetailProductPrice['product_supplier_price_te']}
-                                        {/foreach}</td>
+                                        <td>
+                                            {if $showDetailProduct["price_supplier"] == true}
+                                                {foreach from=$showDetailProduct["price_supplier"] item=showDetailProductPrice}
+                                                    {$showDetailProductPrice['product_supplier_price_te']}
+                                                {/foreach}
+                                            {else}
+                                                <span class="IcoAlert" data-toggle="tooltip" data-placement="bottom"
+                                                   title="Veuillez choisir un prix pour ce fournisseur dans l'onglet 'Options' ">
+                                                   <i class="material-icons">help</i>
+                                                </span>
+                                            {/if}
+                                        </td>
                                     </tr>
                                 </form>
                                 {/foreach}
