@@ -214,7 +214,7 @@ class HiveClasses extends ObjectModel
         ],'`id_supplier` = '.$id_supplier.' AND `id_product_attribute` = '.$id_attribute);
         Db::getInstance()->update('hive_bdd',[
             'supplier_default'  => 1,
-        ],'`position` > '.($positionSupplier).' AND `id_product_attribute` = '.$id_attribute.' AND `supplier_enabled` = 1',1);
+        ],'`position` > '.($positionSupplier).' AND `id_product_attribute` = '.$id_attribute.' AND `supplier_enabled` = 1 ORDER BY `position` ASC',1);
     }
     public static function dbSuppliersActive($id_attribute,$id_supplier){
         $data = Db::getInstance()->executeS('SELECT * FROM `'._DB_PREFIX_.'hive_bdd` WHERE `id_product_attribute` = '.$id_attribute.' AND `id_supplier` = '.$id_supplier.'
