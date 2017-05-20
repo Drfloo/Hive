@@ -11,13 +11,15 @@ class Hive extends Module
     public function __construct()
     {
         $this->name = 'Hive';
-        $this->tab = 'front_office_features';
-        $this->version = '0.7.1';
+        $this->tab = 'others';
+        $this->version = '1.0.0';
         $this->author = 'Damien Barber, Florent Bruziaux, Maxime Hardy';
         $this->displayName = 'Hive';
-        $this->description = 'Description du module [A FAIRE]';
+        $this->description = 'Hive est un module PrestaShop dédié au e-commerçant qui souhaite se lancer dans la livraison direct.  
+                              Avec ce module, vous pouvez choisir quel est le meilleur fournisseur pour chacun des produits de votre 
+                              boutique !';
         $this->need_instance = 0;
-        $this->ps_versions_compliancy = array('min' => '1.6', 'max' => _PS_VERSION_);
+        $this->ps_versions_compliancy = array('min' => '1.7', 'max' => _PS_VERSION_);
         $this->bootstrap = true;
 
         parent::__construct();
@@ -106,10 +108,6 @@ class Hive extends Module
     }
 
     protected $isSaved = false;
-
-    public function hookActionProductUpdate($params){
-
-    }
 
     public function hookActionProductAttributeUpdate($params){
         if ($this->isSaved) return null;

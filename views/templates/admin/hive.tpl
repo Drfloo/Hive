@@ -9,12 +9,14 @@
         cursor : move;
     }
     .table-hive tbody tr{
-      border : solid 2px #BBCDD2;
+        border-bottom: solid 1px #BBCDD2;
       }
     .table th , td{
       text-align: center;
       }
-
+    .table thead {
+        background-color: #DFF5F9;
+    }
   .disableed {
       transition: 2s;
       background-color: #eee;
@@ -37,15 +39,12 @@
 
 <div class="container">
     <hr />
-    {var_dump($id_lang)}
-    {var_dump($biite)}
-    {var_dump($test)}
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
             <div class="alert alert-info">
                 <i class="material-icons">help</i>
-                <p>Choissiez parmi la liste des déclinaisons blablabla</p>
+                <p>Choisissez le meilleur fournisseur pour chacune des déclinaisons du produit.</p>
             </div>
             <button class="btn btn-default refresh">Actualiser les fournisseurs</button>
             {foreach from=$test item=showProduct}
@@ -63,7 +62,7 @@
                                 <th>Quantité</th>
                                 <th></th>
                                 <th>Activer / Desactiver</th>
-                                <th>Prix d'achat</th>
+                                <th>Prix</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -116,7 +115,6 @@
                 </div>
             </div>
             {/foreach}
-            {var_dump($infoDeclination)}
         </div>
     </div>
     <script>
@@ -133,18 +131,32 @@
                    $(this).parents('tr').find('#soupe').prop( "disabled", true ).css('background-color', '#CCCCCC');
                }
            });
-
+            /*
+            *
+            *  JS POUR LES PANELS
+            *
+             */
             $('.pbody').hide();
             $('.input-position').val(1);
             $('.phead').click(function(){
                 $(this).next('.pbody').toggle();
             });
+            /*
+             *
+             *  JS POUR LES BOUTONS SAVE DES QUANTITÉES DES FOURNISSEURS
+             *
+             */
             $('input[name=numberSupplierQuantity]').change(function(){
                 $(this).parents().next('td').find('.btn').css("background-color", "#db841a");
             });
             $('input[name=numberSupplierQuantity]').keyup(function(){
                 $(this).parents().next('td').find('.btn').css("background-color", "#db841a");
             });
+            /*
+             *
+             *  JS POUR LE POSITION DES FOURNISSEURS
+             *
+             */
             $( ".table-hive tbody" ).sortable( {
                update: function( event, ui ) {
                $(this).children('form tr').each(function(index) {
@@ -153,10 +165,22 @@
                $(this).children('form tr').each(function(i) {
                    $(this).find('.value_position').val(i + 1);
                });
+             /*
+             *
+             *  JS POUR LE POSITION DES FOURNISSEURS
+             *
+             */
+
                $(this).children('form tr').each(function (i) {
                    console.log($(this).find("input[class='value_position']").attr('value'));
                    console.log($(this).find("input[name='idProductAttribute']").attr('value'));
                    console.log($(this).find("input[name='idSupplier']").attr('value'));
+
+                   /*
+                    *
+                    *  LES BELLES FONCTION AJAX ET LA FONCTION DE DAM QUI QUAND JE LA BOUGE DE PLACE NE FONCTIONNE PLUS !!!
+                    *
+                    */
 
                    $.ajax (
                        {
