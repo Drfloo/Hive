@@ -120,10 +120,14 @@ class Hive extends Module
     }*/
     public function hookActionUpdateQuantity($params){
         if($params['id_product_attribute'] != 0){
+            $exist  = Db::getInstance()->getRow('SELECT * FROM `ps_hive_bdd` WHERE `id_product_attribute` = '.$params['id_product_attribute'].' ORDER BY `id` DESC ');
+            if(!$exist){
+                HiveClasses::dbaddAttribute($this->context->language->id,$params['id_product'],$params['id_product_attribute'],$params['quantity']);
+            }
             $quantityHive = HiveClasses::dbGetAttributeTotalQuantity($params['id_product_attribute']);
             $diff = $params['quantity'] - $quantityHive;
             if ($diff != 0) {
-                HiveClasses::updateHiveStock($params['id_product_attribute'],$diff);
+                HiveClasses::updateHiveStock($params['id_product'],$params['id_product_attribute'],$diff);
             }
         }
     }

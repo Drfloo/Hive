@@ -194,10 +194,11 @@ class HiveClasses extends ObjectModel
         }
         return $quantity;
     }
-    public static function dbUpdateAttributeQuantity($id_attribute,$id_supplier,$quantity){
+    public static function dbUpdateAttributeQuantity($id_product,$id_attribute,$id_supplier,$quantity){
         Db::getInstance()->update('hive_bdd',[
             'quantity_supplier'  => $quantity,
         ],'`id_supplier` = '.$id_supplier.' AND `id_product_attribute` = '.$id_attribute);
+
     }
     public static function dbSwitchDefaultSupplier($id_attribute,$new_supplier,$old_supplier){
         Db::getInstance()->update('hive_bdd',[
@@ -221,11 +222,11 @@ class HiveClasses extends ObjectModel
         ');
         return (bool)($data[0]['supplier_default']);
     }
-    public static function updateHiveStock($id_attribute,$diff){
+    public static function updateHiveStock($id_product,$id_attribute,$diff){
             $defaultSupplier = self::getDefaultSupplier($id_attribute);
            if($diff > 0 || ($diff < 0 && abs($diff) < $defaultSupplier['quantity'])){
                $newStock = $diff + $defaultSupplier['quantity'];
-               self::dbUpdateAttributeQuantity($id_attribute,$defaultSupplier['id_supplier'],$newStock);
+               self::dbUpdateAttributeQuantity($id_product,$id_attribute,$defaultSupplier['id_supplier'],$newStock);
                return true;
            }
             $diff = $diff + $defaultSupplier['quantity'];
@@ -320,6 +321,36 @@ class HiveClasses extends ObjectModel
             ], true);;
         }
 
+    }
+    public static function dbaddAttribute($id_lang,$id_product,$id_product_attribute,$quantity){
+        self::majSupplier($id_lang);
+        $listSupplier = Supplier::getLiteSuppliersList($id_lang, 'array');
+        $numberSuppliers = self::numberOfSupplier($id_lang);
+        $tab = self::defaultQuantitySupplier($quantity, $numberSuppliers);
+        $i = 0;
+        foreach ($listSupplier as $supplier) {
+            if($i == 0){
+                Db::getInstance()->insert('hive_bdd', [
+                    'id_product' => $id_product,
+                    'id_product_attribute' => $id_product_attribute,
+                    'id_supplier' => $supplier['id'],
+                    'position' => ($i + 1),
+                    'quantity_supplier' => $tab[$i],
+                    'supplier_default' => 1,
+                ]);
+            }
+            else {
+                Db::getInstance()->insert('hive_bdd', [
+                    'id_product' => $id_product,
+                    'id_product_attribute' => $id_product_attribute,
+                    'id_supplier' => $supplier['id'],
+                    'position' => ($i + 1),
+                    'quantity_supplier' => $tab[$i],
+                ]);
+            }
+
+            $i++;
+        }
     }
 
 }
