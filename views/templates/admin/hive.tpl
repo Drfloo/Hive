@@ -46,10 +46,10 @@
 
 <div class="container">
     <hr />
-    {var_dump($test2)}
+    <!--{var_dump($vraitest)}
     {var_dump($id_lang)}
     {var_dump($biite)}
-    {var_dump($test)}
+    {var_dump($infoProduct)}-->
     <h2>Produit : {$productname}</h2>
     <div class="row">
         <div class="col-md-12">
@@ -57,8 +57,8 @@
                 <i class="material-icons">help</i>
                 <p>Choisissez le meilleur fournisseur pour chacune des déclinaisons du produit.</p>
             </div>
-            <button class="btn btn-default refresh">Actualiser les fournisseurs</button>
-            {foreach from=$test item=showProduct}
+            <button class="btn btn-default refresh">Mettre à jour les données</button>
+            {foreach from=$infoProduct item=showProduct}
             <div class="panel panel-default">
                 <div class="panel-heading phead">
                     <strong>{$showProduct["nameDeclination"]}</strong>

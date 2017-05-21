@@ -16,9 +16,17 @@ $supplier = Db::getInstance()->getRow('
             AND `id_supplier` = '.$_POST['id_supplier'].' ');
 
 if($_POST['statut'] == 0){
-    if($supplier['supplier_default'] == 1){
-        HiveClasses::changeDefaultSupplier($_POST['id'],$_POST['id_supplier'],$_POST['position']);
-    }
+    $data = Db::getInstance()->getValue("SELECT COUNT(id_supplier) 
+            FROM ps_hive_bdd 
+            WHERE id_product = ".$_POST['id_product']." 
+            AND id_product_attribute = ".$_POST['id']." 
+            AND supplier_enabled = 1");
+
+        if($supplier['supplier_default'] == 1){
+            if($data != 1){
+                HiveClasses::changeDefaultSupplier($_POST['id'],$_POST['id_supplier'],$_POST['position']);
+            }
+        }
 
     HiveClasses::dbUpdateAttributeQuantity($_POST['id'],$_POST['id_supplier'],0);
     $quantity = HiveClasses::dbGetAttributeTotalQuantity($_POST['id']);

@@ -154,11 +154,47 @@ class HiveClasses extends ObjectModel
                 $global[] = $tabInfoDeclination;
             }
             return $global;
+        }else{
+            $infoProduct = self::getProductName($id_product,$idlang);
+            $tabInfoDeclination = [
+                'idProduct' => $id_product,
+                'idDeclination' => null,
+                'nameDeclination' => $infoProduct["nomproduit"],
+                'hive' => '',
+            ];
+            $sql = "SELECT name, id_supplier, position,  quantity_supplier,supplier_enabled,supplier_default
+                FROM ps_hive_bdd
+                NATURAL JOIN ps_supplier
+                WHERE id_product =" . $id_product . "
+                ORDER BY position ASC";
+            $results = Db::getInstance()->executeS($sql);
+            $hive = null;
+            foreach ($results as $ligne) {
+                $id_supplier = $ligne['id_supplier'];
+                $data =  Db::getInstance()->executeS('
+                    SELECT product_supplier_price_te 
+                    FROM ps_product_supplier
+                    WHERE id_product = '.$id_product.' 
+                    AND id_supplier = '.$id_supplier.' 
+                    ');
+                $row = [
+                    'id_supplier' => $ligne['id_supplier'],
+                    'name_supplier' => $ligne['name'],
+                    'position' => $ligne['position'],
+                    'quantity_supplier' => $ligne['quantity_supplier'],
+                    'supplier_enabled' => $ligne['supplier_enabled'],
+                    'supplier_default' => $ligne['supplier_default'],
+                    'price_supplier' => $data
+                ];
+                $hive[] = $row;
+            }
+            $tabInfoDeclination['hive'] = $hive;
+            $global[] = $tabInfoDeclination;
+            return $global;
         }
-    }
-    public function updateAttribute($id_product,$idlang,$quantity){
 
     }
+    
     public function compareQuantity($id_product_attribute,$quantity){
         $stock = 0;
         $i=0;
@@ -292,6 +328,7 @@ class HiveClasses extends ObjectModel
             }
         }
     }
+
     public static function majSupplier($id_lang){
         $listSupplier = Db::getInstance()->executeS('SELECT * FROM `ps_supplier` ORDER BY `ps_supplier`.`id_supplier` ASC ');
         $numberSupplier = self::numberOfSupplier($id_lang);

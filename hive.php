@@ -77,6 +77,7 @@ class Hive extends Module
         $id_product = $params['id_product'];
         $id_lang = $this->context->language->id;
         $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
+        $dataTest = HiveClasses::dataProductResumeWithoutAttri($id_product,$id_lang);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
@@ -85,7 +86,7 @@ class Hive extends Module
                 'defsupplier' => $product['defaultsupplier'],
                 'infoDeclination' => $product['infoDeclination'],
                 'attribute' => $product['attribute'],
-                'test' => $dataResume,
+                'infoProduct' => $dataResume,
                 'id_lang' => $id_lang,
             ));
         return $this->display(__FILE__, 'views/templates/admin/hive.tpl');
@@ -107,17 +108,6 @@ class Hive extends Module
 
     protected $isSaved = false;
 
-    public function hookActionProductUpdate($params){
-
-    }
-
-    /*public function hookActionProductAttributeUpdate($params){
-        if ($this->isSaved) return null;
-        $id_product = $params['id_product'];
-        $id_lang = $this->context->language->id;
-        $pass = HiveClasses::addProductBDD($id_product,$id_lang);
-        if ($pass) $this->isSaved = true;
-    }*/
     public function hookActionUpdateQuantity($params){
         if($params['id_product_attribute'] != 0){
             $exist  = Db::getInstance()->getRow('SELECT * FROM `ps_hive_bdd` WHERE `id_product_attribute` = '.$params['id_product_attribute'].' ORDER BY `id` DESC ');
