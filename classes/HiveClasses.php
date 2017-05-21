@@ -295,13 +295,14 @@ class HiveClasses extends ObjectModel
         $listSupplier = Db::getInstance()->executeS('SELECT * FROM `ps_supplier` ORDER BY `ps_supplier`.`id_supplier` ASC ');
         $numberSupplier = self::numberOfSupplier($id_lang);
         $listProducts = Product::getProducts($id_lang,0,999999999999,'id_product','ASC');
-        $numberRow = Db::getInstance()->executeS('SELECT COUNT(DISTINCT `id_supplier`) FROM `ps_hive_bdd` ');
+        $numberRow = Db::getInstance()->getValue('SELECT COUNT(DISTINCT `id_supplier`) FROM `ps_hive_bdd` ');
+        if($numberSupplier > (int)$numberRow){
 
-        if($numberSupplier > $numberRow){
             $listIdHive = Db::getInstance()->executeS('SELECT `id_product`,`id_product_attribute` FROM `ps_hive_bdd` GROUP BY `id_product`,`id_product_attribute` ');
             $i=$numberRow;
             while ($i != $numberSupplier){
                 $supplier = $listSupplier[$i];
+
                 self::dbaddNewSupplier($supplier,$listIdHive,$i + 1);
                 $i++;
             }
