@@ -77,7 +77,6 @@ class Hive extends Module
         $id_product = $params['id_product'];
         $id_lang = $this->context->language->id;
         $dataResume = HiveClasses::dataProductResume($id_product,$this->context->language->id);
-        $dataTest = HiveClasses::dataProductResumeWithoutAttri($id_product,$id_lang);
         $product = HiveClasses::getProductName($id_product,$this->context->language->id);
             $this->smarty->assign(array(
                 'productname' => $product['nomproduit'],
