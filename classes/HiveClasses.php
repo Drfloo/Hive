@@ -194,7 +194,7 @@ class HiveClasses extends ObjectModel
         }
         return $quantity;
     }
-    public static function dbUpdateAttributeQuantity($id_product,$id_attribute,$id_supplier,$quantity){
+    public static function dbUpdateAttributeQuantity($id_attribute,$id_supplier,$quantity){
         Db::getInstance()->update('hive_bdd',[
             'quantity_supplier'  => $quantity,
         ],'`id_supplier` = '.$id_supplier.' AND `id_product_attribute` = '.$id_attribute);
@@ -222,11 +222,11 @@ class HiveClasses extends ObjectModel
         ');
         return (bool)($data[0]['supplier_default']);
     }
-    public static function updateHiveStock($id_product,$id_attribute,$diff){
+    public static function updateHiveStock($id_attribute,$diff){
             $defaultSupplier = self::getDefaultSupplier($id_attribute);
            if($diff > 0 || ($diff < 0 && abs($diff) < $defaultSupplier['quantity'])){
                $newStock = $diff + $defaultSupplier['quantity'];
-               self::dbUpdateAttributeQuantity($id_product,$id_attribute,$defaultSupplier['id_supplier'],$newStock);
+               self::dbUpdateAttributeQuantity($id_attribute,$defaultSupplier['id_supplier'],$newStock);
                return true;
            }
             $diff = $diff + $defaultSupplier['quantity'];

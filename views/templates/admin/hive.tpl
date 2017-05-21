@@ -46,7 +46,7 @@
 
 <div class="container">
     <hr />
-    {var_dump($vraitest)}
+    {var_dump($test2)}
     {var_dump($id_lang)}
     {var_dump($biite)}
     {var_dump($test)}

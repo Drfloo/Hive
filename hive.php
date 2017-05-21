@@ -127,7 +127,7 @@ class Hive extends Module
             $quantityHive = HiveClasses::dbGetAttributeTotalQuantity($params['id_product_attribute']);
             $diff = $params['quantity'] - $quantityHive;
             if ($diff != 0) {
-                HiveClasses::updateHiveStock($params['id_product'],$params['id_product_attribute'],$diff);
+                HiveClasses::updateHiveStock($params['id_product_attribute'],$diff);
             }
         }
     }
